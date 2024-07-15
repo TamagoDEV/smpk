@@ -11,19 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('website_media', function (Blueprint $table) {
+        Schema::create('berita', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('jadwal_id');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('id_avropal');
-            $table->string('judul', 255);
+            $table->enum('tipe_media', ['website', 'radio', 'youtube', 'media_lain']);
+            $table->foreignId('laporan_id')->constrained('laporan');
+            $table->string('slug')->unique();
+            $table->string('judul');
             $table->text('isi');
             $table->string('foto')->nullable();
+            $table->string('link_youtube')->nullable();
+            $table->string('audio')->nullable();
+            $table->string('naskah')->nullable();
             $table->text('keterangan')->nullable();
-            $table->enum('status', ['ditolak', 'diterima'])->default('diterima');
-            $table->string('slug', 255)->unique();
-            $table->text('catatan')->nullable();
-            $table->string('link')->nullable();
             $table->timestamps();
         });
     }
@@ -33,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('website_media');
+        Schema::dropIfExists('berita');
     }
 };
