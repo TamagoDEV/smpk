@@ -17,9 +17,20 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'nama_depan',
+        'nama_belakang',
+        'nama_lengkap',
+        'username',
         'email',
         'password',
+        'role',
+        'foto',
+        'tempat_lahir',
+        'tanggal_lahir',
+        'instansi',
+        'bidang',
+        'alamat',
+        'no_hp',
     ];
 
     /**
@@ -43,5 +54,20 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // Define the roles
+    protected static $roleNames = [
+        'superadmin' => 'Super Admin',
+        'admin' => 'Admin',
+        'kepala_bidang' => 'Kepala Bidang',
+        'reporter' => 'Reporter',
+        'sub_bagian_approval' => 'Sub Bagian Approval',
+    ];
+
+    // Method to get the readable role name
+    public function getReadableRoleAttribute()
+    {
+        return self::$roleNames[$this->role] ?? $this->role;
     }
 }

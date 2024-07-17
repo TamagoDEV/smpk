@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama_depan')->nullable();
             $table->string('nama_belakang')->nullable();
             $table->string('nama_lengkap'); // Nama lengkap atau username
+            $table->string('username')->unique();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
