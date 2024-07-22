@@ -10,6 +10,10 @@
     <link href="{{ url('assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet" />
     <link href="{{ url('assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css') }}" rel="stylesheet" />
     <link href="{{ url('assets/plugins/metismenu/css/metisMenu.min.css') }}" rel="stylesheet" />
+    <link href="{{ url('assets/plugins/datatable/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet" />
+    <link href="{{ url('assets/plugins/smart-wizard/css/smart_wizard_all.min.css') }}" rel="stylesheet"
+        type="text/css" />
+
     <!-- Bootstrap CSS -->
     <link href="{{ url('assets/css/bootstrap.min.css') }}" rel="stylesheet" />
     <link href="{{ url('assets/css/bootstrap-extended.css') }}" rel="stylesheet" />
@@ -142,6 +146,13 @@
 
     <script src="{{ url('assets/plugins/apexcharts-bundle/js/apexcharts.min.js') }}"></script>
     <script src="{{ url('assets/js/index2.js') }}"></script>
+    <script src="{{ url('assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ url('assets/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ url('assets/js/table-datatable.js') }}"></script>
+    <script src="{{ url('assets/plugins/smart-wizard/js/jquery.smartWizard.min.js') }}"></script>
+
+
+
     <!--app-->
     <script src="{{ url('assets/js/app.js') }}"></script>
 

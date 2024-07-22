@@ -9,6 +9,10 @@ class AuthController extends Controller
 {
     public function login()
     {
+        if (Auth::check()) {
+            return redirect()->route('dashboard');
+        }
+
         return view('auth.login', [
             'title' => 'Login - SMPK',
         ]);
@@ -16,7 +20,16 @@ class AuthController extends Controller
 
     public function processLogin(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $login = $request->input('login');
+        $password = $request->input('password');
+
+        // Check if input is email
+        $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        $credentials = [
+            $fieldType => $login,
+            'password' => $password
+        ];
 
         if (Auth::attempt($credentials, $request->remember)) {
             // Authentication passed
@@ -26,6 +39,7 @@ class AuthController extends Controller
         // Authentication failed
         return redirect()->back()->withInput()->withErrors(['error' => 'Username/Email atau Password Salah']);
     }
+
 
     public function logout()
     {

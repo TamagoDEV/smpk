@@ -64,15 +64,15 @@
                                             @endif
 
                                             <div class="col-12">
-                                                <label for="email" class="form-label">Username/Email</label>
+                                                <label for="login" class="form-label">Username/Email</label>
                                                 <div class="ms-auto position-relative">
                                                     <div
                                                         class="position-absolute top-50 translate-middle-y search-icon px-3">
                                                         <i class="bi bi-person-circle"></i>
                                                     </div>
                                                     <input type="text" class="form-control radius-30 ps-5"
-                                                        id="email" placeholder="Username or Email" name="email"
-                                                        required value="{{ old('email') }}">
+                                                        id="login" placeholder="Username or Email" name="login"
+                                                        required value="{{ old('login') }}">
                                                 </div>
                                             </div>
                                             <div class="col-12">
@@ -102,6 +102,7 @@
                                             </div>
                                         </div>
                                     </form>
+
 
                                 </div>
                             </div>
