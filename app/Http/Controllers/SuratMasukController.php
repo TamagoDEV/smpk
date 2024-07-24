@@ -1,0 +1,71 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\SuratMasuk;
+use Illuminate\Http\Request;
+
+class SuratMasukController extends Controller
+{
+    public function index()
+    {
+        return view('suratmasuk', [
+            'title' => 'Buat Surat',
+        ]);
+    }
+
+    public function submit(Request $request)
+    {
+        $rules = [
+            'jenis' => 'required|string',
+            'nama_pengirim' => 'required|string',
+            'instansi' => 'required|string',
+            'bidang' => 'required|string',
+            'no_hp' => 'required|string',
+            'kontak_lain' => 'nullable|string',
+        ];
+
+        if ($request->jenis == 'iklan') {
+            $rules = array_merge($rules, [
+                'tipe_iklan' => 'required|string',
+                'periode' => 'required|string',
+                'harga' => 'required|numeric',
+                'ppn' => 'required|numeric',
+            ]);
+        } elseif ($request->jenis == 'peliputan') {
+            $rules = array_merge($rules, [
+                'nama_acara' => 'required|string',
+                'lokasi_acara' => 'required|string',
+                'waktu_acara' => 'required|string',
+                'tanggal_acara' => 'required|date',
+            ]);
+        }
+
+        $validatedData = $request->validate($rules);
+
+        $suratMasuk = new SuratMasuk();
+        $suratMasuk->jenis = $request->jenis;
+        $suratMasuk->nama_pengirim = $request->nama_pengirim;
+        $suratMasuk->instansi = $request->instansi;
+        $suratMasuk->bidang = $request->bidang;
+        $suratMasuk->no_hp = $request->no_hp;
+        $suratMasuk->kontak_lain = $request->kontak_lain;
+        $suratMasuk->dokumen_surat = $request->file('dokumen_surat')->store('dokumen_surat');
+
+        if ($request->jenis === 'iklan') {
+            $suratMasuk->tipe_iklan = $request->tipe_iklan;
+            $suratMasuk->periode = $request->periode;
+            $suratMasuk->harga = $request->harga;
+            $suratMasuk->ppn = $request->ppn;
+        } else if ($request->jenis === 'peliputan') {
+            $suratMasuk->nama_acara = $request->nama_acara;
+            $suratMasuk->lokasi_acara = $request->lokasi_acara;
+            $suratMasuk->waktu_acara = $request->waktu_acara;
+            $suratMasuk->tanggal_acara = $request->tanggal_acara;
+        }
+
+        $suratMasuk->save();
+
+        return redirect()->back()->with('success', 'Pengajuan surat berhasil dikirim.');
+    }
+}
