@@ -36,13 +36,12 @@
             <ul>
                 <li> <a href="{{ route('surat-masuk') }}"><i class="bi bi-circle"></i>Surat Masuk</a>
                 </li>
-                <li> <a href="{{ route('surat-masuk/terjadwal') }}"><i class="bi bi-circle"></i>Surat Masuk
-                        Terjadwal</a>
+                <li> <a href="{{ route('jadwal-reporter') }}"><i class="bi bi-circle"></i>Jadwal Reporter</a>
                 </li>
             </ul>
         </li>
         <li>
-            <a href="{{ route('users.index') }}">
+            <a href="{{ route('berita.index') }}">
                 <div class="parent-icon"><i class="bi bi-person-lines-fill"></i></div>
                 <div class="menu-title">Daftar Berita</div>
             </a>

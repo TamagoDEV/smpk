@@ -141,15 +141,4 @@ class SuratMasukController extends Controller
 
         return redirect()->back()->with('success', 'Surat masuk berhasil dihapus.');
     }
-
-
-    // Method untuk menampilkan daftar surat masuk terjadwal
-    public function pageSuratTerjadwal()
-    {
-        $suratmasuk = SuratMasuk::all();
-        return view('admin.suratmasuk.terjadwal', [
-            'title' => 'Surat Masuk Terjadwal',
-            'suratmasuk' => $suratmasuk,
-        ]);
-    }
 }
