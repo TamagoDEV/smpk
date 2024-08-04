@@ -31,14 +31,20 @@
             <a class="has-arrow" href="javascript:;">
                 <div class="parent-icon"><i class="bi bi-cloud-arrow-down-fill"></i>
                 </div>
-                <div class="menu-title">Surat</div>
+                <div class="menu-title">Surat Masuk</div>
             </a>
             <ul>
-                <li> <a href="{{ route('surat-masuk') }}"><i class="bi bi-circle"></i>Surat Masuk</a>
+                <li> <a href="{{ route('surat-masuk') }}"><i class="bi bi-circle"></i>Peliputan</a>
                 </li>
-                <li> <a href="{{ route('jadwal-reporter') }}"><i class="bi bi-circle"></i>Jadwal Reporter</a>
+                <li> <a href="{{ route('jadwal-reporter') }}"><i class="bi bi-circle"></i>Iklan</a>
                 </li>
             </ul>
+        </li>
+        <li>
+            <a href="{{ route('berita.index') }}">
+                <div class="parent-icon"><i class="bi bi-person-lines-fill"></i></div>
+                <div class="menu-title">Jadwal Reporter</div>
+            </a>
         </li>
         <li>
             <a href="{{ route('berita.index') }}">
