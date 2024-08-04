@@ -37,4 +37,8 @@ class SuratMasuk extends Model
     {
         return $this->belongsTo(User::class, 'kepala_bidang_id');
     }
+    public function reporters()
+    {
+        return $this->hasMany(Reporters::class, 'surat_masuk_id');
+    }
 }

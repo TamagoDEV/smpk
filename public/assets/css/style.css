@@ -158,6 +158,24 @@ a {
     }
 }
 
+/* Common styling for status text */
+.status-jadwal {
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: bold;
+}
+
+/* Specific styling for "Belum Terjadwal" */
+.status-belum-terjadwal {
+    background-color: #ff6b6b; /* Light red background */
+}
+
+/* Specific styling for "Sudah Terjadwal" */
+.status-sudah-terjadwal {
+    background-color: #1dd1a1; /* Light green background */
+}
+
 .top-header .navbar .dropdown-large,
 .dropdown-user-setting .navbar .dropdown-large {
     position: relative;

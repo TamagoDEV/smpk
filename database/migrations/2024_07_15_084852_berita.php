@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('berita', function (Blueprint $table) {
             $table->id();
             $table->enum('tipe_media', ['website', 'radio', 'youtube', 'media_lain']);
-            $table->foreignId('laporan_id')->constrained('laporan');
+            $table->foreignId('surat_id')->constrained('surat_masuk');
             $table->string('slug')->unique();
             $table->string('judul');
             $table->text('isi');

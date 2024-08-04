@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('reporter', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('surat_masuk_id')->constrained('surat_masuk');
             $table->foreignId('user_id')->constrained('users');
             $table->enum('tipe', ['media', 'diskominfo']);
-            $table->foreignId('surat_masuk_id')->constrained('surat_masuk');
             $table->timestamps();
         });
     }
