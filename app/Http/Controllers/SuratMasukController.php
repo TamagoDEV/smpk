@@ -6,6 +6,7 @@ use App\Models\Reporters;
 use App\Models\SuratMasuk;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SuratMasukController extends Controller
 {
@@ -71,67 +72,60 @@ class SuratMasukController extends Controller
         return redirect()->back()->with('success', 'Pengajuan surat berhasil dikirim.');
     }
 
-    // Method untuk menampilkan daftar surat masuk
-    public function pageSuratMasuk()
+    public function peliputanIndex()
     {
-        $suratmasuk = SuratMasuk::with('reporters')->get()->map(function ($surat) {
-            $surat->status_jadwal = $surat->reporters->isEmpty() ? 'Belum Terjadwal' : 'Sudah Terjadwal';
-            return $surat;
-        });
-
-        // Filter pengguna dengan role "reporter"
+        $peliputan = SuratMasuk::with('reporters', 'kepalaBidang')
+            ->where('jenis', 'peliputan')
+            ->get()
+            ->map(function ($surat) {
+                $surat->status_jadwal = $surat->reporters->isEmpty() ? 'Belum Terjadwal' : 'Sudah Terjadwal';
+                return $surat;
+            });
+        // Mengambil pengguna dengan role 'reporter'
         $users = User::where('role', 'reporter')->get();
 
-        return view('admin.suratmasuk.index', [
-            'title' => 'Daftar Surat Masuk',
-            'suratmasuk' => $suratmasuk,
+        // Mengembalikan tampilan dengan data yang diperlukan
+        return view('suratmasuk.peliputan', [
+            'title' => 'Surat Peliputan',
+            'peliputan' => $peliputan,
             'users' => $users,
         ]);
     }
-    // Method untuk menambahkan reporter ke surat masuk
-    public function assignReporter(Request $request, $id)
+
+
+    public function iklanIndex()
     {
-        $request->validate([
-            'reporters' => 'required|array',
-            'reporters.*' => 'exists:users,id',
-            'tipe' => 'required|string',
-            'nama_acara' => 'nullable|string',
-            'lokasi_acara' => 'nullable|string',
-            'waktu_acara' => 'nullable|string',
-            'tanggal_acara' => 'nullable|date',
+        $iklan = SuratMasuk::with('reporters')
+            ->where('jenis', 'iklan')
+            ->get();
+
+        return view('suratmasuk.iklan', [
+            'title' => 'Surat Iklan',
+            'iklan' => $iklan,
         ]);
-
-        $suratMasuk = SuratMasuk::findOrFail($id);
-        $reporters = $request->input('reporters');
-        $tipe = $request->input('tipe');
-
-        // Ambil reporter yang sudah ada untuk surat masuk yang sama
-        $existingReporters = $suratMasuk->reporters()->pluck('user_id')->toArray();
-
-        // Filter reporter yang belum ada
-        $newReporters = array_diff($reporters, $existingReporters);
-
-        // Jika tidak ada reporter baru, kembalikan dengan pesan error
-        if (empty($newReporters)) {
-            return redirect()->back()->with('error', 'Reporter sudah ada pada surat ini.');
-        }
-
-        // Tambahkan reporter baru
-        foreach ($newReporters as $reporterId) {
-            Reporters::create([
-                'surat_masuk_id' => $suratMasuk->id,
-                'user_id' => $reporterId,
-                'tipe' => $tipe,
-            ]);
-        }
-
-        return redirect()->back()->with('success', 'Reporter berhasil ditambahkan.');
     }
 
-    public function getData($id)
+    public function detailsIklan($id)
     {
-        $suratmasuk = SuratMasuk::with('reporters.user')->findOrFail($id);
-        return response()->json($suratmasuk);
+        $suratMasuk = SuratMasuk::findOrFail($id);
+
+        return response()->json($suratMasuk);
+    }
+
+    public function approve($id)
+    {
+        $suratMasuk = SuratMasuk::findOrFail($id);
+
+        if (Auth::user()->role !== 'kepala_bidang') {
+            return redirect()->back()->with('error', 'Anda tidak memiliki akses untuk melakukan aksi ini.');
+        }
+
+        $suratMasuk->kepala_bidang_id = Auth::id();
+        $suratMasuk->approved = 1;
+        $suratMasuk->approved_at = now();
+        $suratMasuk->save();
+
+        return redirect()->back()->with('success', 'Surat masuk berhasil di-approve.');
     }
 
     public function destroy($id)

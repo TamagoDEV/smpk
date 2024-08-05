@@ -26,10 +26,10 @@ class SuratMasuk extends Model
         'lokasi_acara',
         'waktu_acara',
         'tanggal_acara',
-        'status',
         'kepala_bidang_id',
-        'ttd_qrcode',
+        'approved',
         'approved_at',
+        'ttd_qrcode',
     ];
 
     // Relasi ke model User

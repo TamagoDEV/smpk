@@ -31,7 +31,7 @@ class UsersController extends Controller
             'nama_lengkap' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
-            'role' => 'required|string',
+            'role' => 'required|in:superadmin,admin,kepala_bidang,reporter,sub_bagian_approval',
             'tempat_lahir' => 'nullable|string|max:255',
             'tanggal_lahir' => 'nullable|date',
             'instansi' => 'nullable|string|max:255',
@@ -39,7 +39,7 @@ class UsersController extends Controller
             'alamat' => 'nullable|string|max:255',
             'no_hp' => 'nullable|string|max:255',
             'password' => 'required|string|min:8|confirmed',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg'
         ]);
 
         $user = new User;

@@ -34,9 +34,9 @@
                 <div class="menu-title">Surat Masuk</div>
             </a>
             <ul>
-                <li> <a href="{{ route('surat-masuk') }}"><i class="bi bi-circle"></i>Peliputan</a>
+                <li> <a href="{{ route('surat-masuk/peliputan') }}"><i class="bi bi-circle"></i>Peliputan</a>
                 </li>
-                <li> <a href="{{ route('jadwal-reporter') }}"><i class="bi bi-circle"></i>Iklan</a>
+                <li> <a href="{{ route('surat-masuk/iklan') }}"><i class="bi bi-circle"></i>Iklan</a>
                 </li>
                 <li> <a href="{{ route('approval-surat') }}"><i class="bi bi-circle"></i>Data Approval Surat</a>
                 </li>

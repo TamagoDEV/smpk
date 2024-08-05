@@ -10,6 +10,8 @@ use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [SuratMasukController::class, 'index'])->name('home');
+Route::get('/kirim-surat', [SuratMasukController::class, 'index'])->name('kirim-surat');
+Route::post('/submit', [SuratMasukController::class, 'submit'])->name('submit-surat');
 
 Route::prefix('auth')->group(function () {
     Route::get('/login', [AuthController::class, 'login'])->name('login');
@@ -22,15 +24,20 @@ Route::middleware('userLogin')->group(function () {
     Route::resource('users', UsersController::class);
 
     Route::prefix('surat-masuk')->group(function () {
-        Route::get('/', [SuratMasukController::class, 'pageSuratMasuk'])->name('surat-masuk');
-        Route::post('/submit', [SuratMasukController::class, 'submit'])->name('submit-surat');
+        Route::get('/', [SuratMasukController::class, 'peliputanIndex'])->name('surat-masuk');
+        Route::get('/peliputan', [SuratMasukController::class, 'peliputanIndex'])->name('surat-masuk/peliputan');
+        Route::post('assign_reporter', [SuratMasukController::class, 'assignReporter'])->name('surat-masuk.assign_reporter');
+        Route::get('{id}/data', [SuratMasukController::class, 'getData']);
+        // web.php
+        Route::get('/{id}/details-iklan', [SuratMasukController::class, 'detailsIklan'])->name('surat-masuk.detailsIklan');
+
+        Route::get('/iklan', [SuratMasukController::class, 'iklanIndex'])->name('surat-masuk/iklan');
         Route::post('/{id}/assign_reporter', [SuratMasukController::class, 'assignReporter'])->name('surat_masuk.assign_reporter');
         Route::get('/{id}/data', [SuratMasukController::class, 'getData']);
         Route::get('/approval', [SuratMasukController::class, 'approvalSurat'])->name('approval-surat');
+        Route::put('/{id}/approve', [SuratMasukController::class, 'approve'])->name('surat-masuk/approve');
         Route::delete('/{id}', [SuratMasukController::class, 'destroy'])->name('surat_masuk.destroy');
     });
-
-    Route::get('/kirim-surat', [SuratMasukController::class, 'index'])->name('kirim-surat');
 
     Route::get('/jadwal-reporter', [ReporterController::class, 'index'])->name('jadwal-reporter');
 
