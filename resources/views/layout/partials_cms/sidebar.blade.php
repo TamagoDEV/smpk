@@ -38,18 +38,26 @@
                 </li>
                 <li> <a href="{{ route('jadwal-reporter') }}"><i class="bi bi-circle"></i>Iklan</a>
                 </li>
+                <li> <a href="{{ route('approval-surat') }}"><i class="bi bi-circle"></i>Data Approval Surat</a>
+                </li>
             </ul>
         </li>
         <li>
-            <a href="{{ route('berita.index') }}">
-                <div class="parent-icon"><i class="bi bi-person-lines-fill"></i></div>
+            <a href="{{ route('jadwal-reporter') }}">
+                <div class="parent-icon"><i class="bi bi-calendar"></i></div>
                 <div class="menu-title">Jadwal Reporter</div>
             </a>
         </li>
         <li>
             <a href="{{ route('berita.index') }}">
-                <div class="parent-icon"><i class="bi bi-person-lines-fill"></i></div>
+                <div class="parent-icon"><i class="lni lni-blogger"></i></div>
                 <div class="menu-title">Daftar Berita</div>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('pelaporan.index') }}">
+                <div class="parent-icon"><i class="bi bi-book"></i></div>
+                <div class="menu-title">Pelaporan</div>
             </a>
         </li>
 
