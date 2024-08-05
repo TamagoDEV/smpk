@@ -38,7 +38,7 @@
                 </li>
                 <li> <a href="{{ route('surat-masuk/iklan') }}"><i class="bi bi-circle"></i>Iklan</a>
                 </li>
-                <li> <a href="{{ route('approval-surat') }}"><i class="bi bi-circle"></i>Data Approval Surat</a>
+                <li> <a href="{{ route('approved-surat') }}"><i class="bi bi-circle"></i>Data Approved Surat</a>
                 </li>
             </ul>
         </li>

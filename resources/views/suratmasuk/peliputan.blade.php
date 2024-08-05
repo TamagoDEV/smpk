@@ -6,6 +6,20 @@
         <hr />
         <div class="card">
             <div class="card-body">
+                <!-- Flash Messages -->
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+
+                @if (session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
                 <div class="table-responsive">
                     <table id="example" class="table table-striped table-bordered" style="width:100%">
                         <thead>
@@ -14,6 +28,7 @@
                                 <th>Jenis Surat</th>
                                 <th>Nama Pengirim</th>
                                 <th>Tanggal dibuat</th>
+                                <th>Status</th>
                                 <th>Approval</th>
                                 <th style="text-align: center;">#</th>
                                 <th>Aksi</th>
@@ -26,12 +41,12 @@
                                     <td>{{ ucwords($sm->jenis) }}</td>
                                     <td>{{ ucwords($sm->nama_pengirim) }}</td>
                                     <td>{{ $sm->created_at }}</td>
-                                    {{-- <td>
+                                    <td>
                                         <span
                                             class="status-jadwal {{ $sm->status_jadwal == 'Belum Terjadwal' ? 'status-belum-terjadwal' : 'status-sudah-terjadwal' }}">
                                             {{ $sm->status_jadwal }}
                                         </span>
-                                    </td> --}}
+                                    </td>
                                     <td>{{ ucwords($sm->kepalaBidang->nama_lengkap ?? '-') }}</td>
                                     <td style="text-align:
                                     center;">
@@ -71,8 +86,7 @@
                                             style="display:inline-block;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm" title="Hapu"><i
-                                                    class="lni lni-trash" style="margin-left: -1px;"></i></button>
+                                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -118,12 +132,14 @@
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
+
             </div>
         </div>
     </div>
 
     <!-- Detail Surat Masuk -->
-    <div class="modal fade" id="suratMasukModal" tabindex="-1" aria-labelledby="suratMasukModalLabel" aria-hidden="true">
+    <div class="modal fade" id="suratMasukModal" tabindex="-1" aria-labelledby="suratMasukModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -138,10 +154,10 @@
                     <p><strong>No HP:</strong> <span id="no_hp"></span></p>
                     <p><strong>Kontak Lain:</strong> <span id="kontak_lain"></span></p>
                     <!-- Tambahkan detail lainnya sesuai kebutuhan -->
-                    <p><strong>Tipe Iklan:</strong> <span id="tipe_iklan"></span></p>
-                    <p><strong>Periode:</strong> <span id="periode"></span></p>
-                    <p><strong>Harga:</strong> <span id="harga"></span></p>
-                    <p><strong>Ppn:</strong> <span id="ppn"></span></p>
+                    <p><strong>Nama Acara:</strong> <span id="nama_acara"></span></p>
+                    <p><strong>Lokasi Acara:</strong> <span id="lokasi_acara"></span></p>
+                    <p><strong>Waktu Acara:</strong> <span id="waktu_acara"></span></p>
+                    <p><strong>Tanggal Acara:</strong> <span id="tanggal_acara"></span></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -154,7 +170,7 @@
 <!-- Modal script -->
 <script>
     function showDetails(id) {
-        fetch(`{{ url('/surat-masuk') }}/${id}/details-iklan`)
+        fetch(`{{ url('/surat-masuk') }}/${id}/details-peliputan`)
             .then(response => response.json())
             .then(data => {
                 document.getElementById('jenis').textContent = data.jenis;
@@ -166,34 +182,32 @@
                 // Update field lainnya jika diperlukan
                 document.getElementById('nama_acara').textContent = data.nama_acara;
                 document.getElementById('lokasi_acara').textContent = data.lokasi_acara;
-                document.getElementById('waktu_acara').textContent = datawaktu_acaraharga;
+                document.getElementById('waktu_acara').textContent = data.waktu_acara;
                 document.getElementById('tanggal_acara').textContent = data.tanggal_acara;
                 new bootstrap.Modal(document.getElementById('suratMasukModal')).show();
             });
     }
 </script>
 
-@push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var assignReporterModal = document.getElementById('assignReporterModal');
-            assignReporterModal.addEventListener('show.bs.modal', function(event) {
-                var button = event.relatedTarget;
-                var suratMasukId = button.getAttribute('data-id');
-                var form = document.getElementById('assignReporterForm');
-                form.action = '/surat-masuk/' + suratMasukId + '/assign_reporter';
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var assignReporterModal = document.getElementById('assignReporterModal');
+        assignReporterModal.addEventListener('show.bs.modal', function(event) {
+            var button = event.relatedTarget;
+            var suratMasukId = button.getAttribute('data-id');
+            var form = document.getElementById('assignReporterForm');
+            form.action = '/surat-masuk/' + suratMasukId + '/assign_reporter';
 
-                // Clear previous selections
-                var select = form.querySelector('#reporter_ids');
-                select.value = [];
+            // Clear previous selections
+            var select = form.querySelector('#reporter_ids');
+            select.value = [];
 
-                // Fetch and set selected reporters
-                fetch(`/surat-masuk/${suratMasukId}/data`)
-                    .then(response => response.json())
-                    .then(data => {
-                        select.value = data.reporters.map(reporter => reporter.user_id);
-                    });
-            });
+            // Fetch and set selected reporters
+            fetch(`/surat-masuk/${suratMasukId}/data`)
+                .then(response => response.json())
+                .then(data => {
+                    select.value = data.reporters.map(reporter => reporter.user_id);
+                });
         });
-    </script>
-@endpush
+    });
+</script>

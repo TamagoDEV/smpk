@@ -160,10 +160,10 @@ a {
 
 /* Common styling for status text */
 .status-jadwal {
-    padding: 5px 10px;
-    border-radius: 5px;
+    padding: 3px 8px;
+    border-radius: 3px;
     color: #fff;
-    font-weight: bold;
+    /* font-weight: bold; */
 }
 
 /* Specific styling for "Belum Terjadwal" */

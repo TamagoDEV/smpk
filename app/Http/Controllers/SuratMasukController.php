@@ -7,6 +7,7 @@ use App\Models\SuratMasuk;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class SuratMasukController extends Controller
 {
@@ -92,6 +93,40 @@ class SuratMasukController extends Controller
         ]);
     }
 
+    public function assignReporter(Request $request, $id)
+    {
+        $request->validate([
+            'reporter_ids' => 'required|array',
+            'reporter_ids.*' => 'exists:users,id',
+            'tipe' => 'required|string',
+        ]);
+
+        $suratMasuk = SuratMasuk::findOrFail($id);
+        $addedReporters = [];
+
+        foreach ($request->reporter_ids as $user_id) {
+            // Periksa apakah kombinasi surat_masuk_id dan user_id sudah ada
+            $existingReporter = Reporters::where('surat_masuk_id', $id)
+                ->where('user_id', $user_id)
+                ->first();
+
+            // Jika tidak ada, tambahkan kombinasi baru
+            if (!$existingReporter) {
+                Reporters::create([
+                    'surat_masuk_id' => $id,
+                    'user_id' => $user_id,
+                    'tipe' => $request->tipe,
+                ]);
+                $addedReporters[] = $user_id;
+            }
+        }
+
+        if (count($addedReporters) > 0) {
+            return redirect()->back()->with('success', 'Reporter berhasil ditambahkan.');
+        } else {
+            return redirect()->back()->with('error', 'Reporter sudah ada.');
+        }
+    }
 
     public function iklanIndex()
     {
@@ -105,7 +140,26 @@ class SuratMasukController extends Controller
         ]);
     }
 
+    public function approvedSurat()
+    {
+        $approved = SuratMasuk::with('reporters')
+            ->whereNotNull('kepala_bidang_id')
+            ->get();
+
+        return view('suratmasuk.approvalsurat', [
+            'title' => 'Surat Approved',
+            'approved' => $approved,
+        ]);
+    }
+
     public function detailsIklan($id)
+    {
+        $suratMasuk = SuratMasuk::findOrFail($id);
+
+        return response()->json($suratMasuk);
+    }
+
+    public function detailsPeliputan($id)
     {
         $suratMasuk = SuratMasuk::findOrFail($id);
 
