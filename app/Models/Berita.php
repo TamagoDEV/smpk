@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Berita extends Model
 {
@@ -12,8 +13,8 @@ class Berita extends Model
     protected $table = 'berita';
 
     protected $fillable = [
+        'surat_masuk_id',
         'tipe_media',
-        'surat_id',
         'slug',
         'judul',
         'isi',
@@ -24,11 +25,21 @@ class Berita extends Model
         'keterangan',
     ];
 
-    /**
-     * Relasi ke model SuratMasuk.
-     */
     public function suratMasuk()
     {
-        return $this->belongsTo(SuratMasuk::class, 'surat_id');
+        return $this->belongsTo(SuratMasuk::class, 'surat_masuk_id');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($berita) {
+            $berita->slug = Str::slug($berita->judul);
+        });
+
+        static::updating(function ($berita) {
+            $berita->slug = Str::slug($berita->judul);
+        });
     }
 }

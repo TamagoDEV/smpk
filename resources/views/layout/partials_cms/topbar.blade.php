@@ -459,44 +459,12 @@
                                     <div class="ms-3"><span>Profile</span></div>
                                 </div>
                             </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#">
-                                <div class="d-flex align-items-center">
-                                    <div class=""><i class="bi bi-gear-fill"></i></div>
-                                    <div class="ms-3"><span>Setting</span></div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="index2.html">
-                                <div class="d-flex align-items-center">
-                                    <div class=""><i class="bi bi-speedometer"></i></div>
-                                    <div class="ms-3"><span>Dashboard</span></div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#">
-                                <div class="d-flex align-items-center">
-                                    <div class=""><i class="bi bi-piggy-bank-fill"></i></div>
-                                    <div class="ms-3"><span>Earnings</span></div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#">
-                                <div class="d-flex align-items-center">
-                                    <div class=""><i class="bi bi-cloud-arrow-down-fill"></i></div>
-                                    <div class="ms-3"><span>Downloads</span></div>
-                                </div>
-                            </a>
-                        </li>
+
                         <li>
                             <hr class="dropdown-divider">
                         </li>
                         <li>
-                            <a class="dropdown-item" href="authentication-signup-with-header-footer.html">
+                            <a class="dropdown-item" href="auth/logout">
                                 <div class="d-flex align-items-center">
                                     <div class=""><i class="bi bi-lock-fill"></i></div>
                                     <div class="ms-3"><span>Logout</span></div>

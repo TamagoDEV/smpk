@@ -11,9 +11,10 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nama Reporter</th>
+                                <th>Reporter</th>
                                 <th>Tipe Media</th>
                                 <th>Jenis Berita</th>
+                                <th>Judul Berita</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -21,10 +22,19 @@
                             @foreach ($berita as $index => $beritaItem)
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
-                                    <td>{{ ucwords(strtolower($beritaItem->suratMasuk->reporters->first()->user->nama_lengkap ?? 'N/A')) }}
+                                    <td>
+                                        @if ($beritaItem->suratMasuk)
+                                            @php
+                                                $firstReporter = $beritaItem->suratMasuk->reporters->first();
+                                            @endphp
+                                            {{ $firstReporter ? $firstReporter->user->nama_lengkap : 'N/A' }}
+                                        @else
+                                            N/A
+                                        @endif
                                     </td>
                                     <td>{{ ucwords(strtolower($beritaItem->tipe_media)) }}</td>
                                     <td>{{ ucwords(strtolower($beritaItem->suratMasuk->jenis ?? 'N/A')) }}</td>
+                                    <td>{{ $beritaItem->judul }}</td>
                                     <td>
                                         <a href="{{ route('berita.detail', $beritaItem->id) }}"
                                             class="btn btn-info btn-sm">Detail Berita</a>

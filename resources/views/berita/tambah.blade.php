@@ -8,41 +8,43 @@
             <div class="card-body">
                 <form action="{{ route('berita.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <div class="mb-3">
-                        <label for="surat_id" class="form-label">Surat</label>
-                        <select id="surat_id" name="surat_id" class="form-select" required>
-                            <option value="" disabled selected>Pilih Surat</option>
-                            @foreach ($suratList as $surat)
-                                <option value="{{ $surat->id }}">{{ $surat->jenis }} - {{ $surat->nama_pengirim }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('surat_id')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="tipe_media" class="form-label">Tipe Media</label>
-                        <select id="tipe_media" name="tipe_media" class="form-select" required>
-                            <option value="" disabled selected>Pilih Tipe Media</option>
-                            <option value="website">Website</option>
-                            <option value="radio">Radio</option>
-                            <option value="youtube">YouTube</option>
-                            <option value="media_lain">Media Lain</option>
-                        </select>
-                        @error('tipe_media')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="slug" class="form-label">Slug</label>
-                        <input type="text" id="slug" name="slug" class="form-control" value="{{ old('slug') }}"
-                            required>
-                        @error('slug')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="hidden" name="reporter_id" value="{{ $currentReporterId }}">
+                            <div class="mb-3">
+                                <label for="surat_masuk_id" class="form-label">Surat</label>
+                                <select id="surat_masuk_id" name="surat_masuk_id" class="form-select" required>
+                                    <option value="" disabled {{ old('surat_masuk_id') ? '' : 'selected' }}>Pilih
+                                        Surat
+                                    </option>
+                                    @foreach ($suratList as $surat)
+                                        <option value="{{ $surat->id }}"
+                                            {{ old('surat_masuk_id') == $surat->id ? 'selected' : '' }}>
+                                            {{ ucwords(strtolower($surat->jenis)) }} -
+                                            {{ ucwords(strtolower($surat->nama_pengirim)) }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('surat_masuk_id')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="tipe_media" class="form-label">Tipe Media</label>
+                                <select id="tipe_media" name="tipe_media" class="form-select" required>
+                                    <option value="" disabled selected>Pilih Tipe Media</option>
+                                    <option value="website">Website</option>
+                                    <option value="radio">Radio</option>
+                                    <option value="youtube">YouTube</option>
+                                    <option value="media_lain">Media Lain</option>
+                                </select>
+                                @error('tipe_media')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
                     </div>
 
                     <div class="mb-3">

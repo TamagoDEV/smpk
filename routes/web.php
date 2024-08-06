@@ -42,11 +42,12 @@ Route::middleware('userLogin')->group(function () {
 
     Route::get('/jadwal-reporter', [ReporterController::class, 'index'])->name('jadwal-reporter');
 
+    // Berita Routes
     Route::prefix('berita')->group(function () {
         Route::get('/', [BeritaController::class, 'index'])->name('berita.index');
         Route::get('/tambah', [BeritaController::class, 'create'])->name('berita.create');
-        Route::post('/', [BeritaController::class, 'store'])->name('berita.store');
-        Route::get('/{id}', [BeritaController::class, 'show'])->name('berita.detail');
+        Route::post('/tambah', [BeritaController::class, 'store'])->name('berita.store');
+        Route::get('/{berita}', [BeritaController::class, 'show'])->name('berita.detail');
         Route::get('/{berita}/edit', [BeritaController::class, 'edit'])->name('berita.edit');
         Route::put('/{berita}', [BeritaController::class, 'update'])->name('berita.update');
         Route::delete('/{berita}', [BeritaController::class, 'destroy'])->name('berita.destroy');

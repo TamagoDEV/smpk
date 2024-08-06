@@ -99,6 +99,7 @@ class SuratMasukController extends Controller
             'reporter_ids' => 'required|array',
             'reporter_ids.*' => 'exists:users,id',
             'tipe' => 'required|string',
+            'berita_Id' => 'null',
         ]);
 
         $suratMasuk = SuratMasuk::findOrFail($id);
@@ -116,6 +117,7 @@ class SuratMasukController extends Controller
                     'surat_masuk_id' => $id,
                     'user_id' => $user_id,
                     'tipe' => $request->tipe,
+                    'berita_id' => null,
                 ]);
                 $addedReporters[] = $user_id;
             }

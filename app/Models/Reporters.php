@@ -14,6 +14,7 @@ class Reporters extends Model
     protected $fillable = [
         'surat_masuk_id',
         'user_id',
+        'berita_id',
         'tipe',
     ];
 
