@@ -13,17 +13,11 @@ return new class extends Migration
     {
         Schema::create('laporan', function (Blueprint $table) {
             $table->id();
-            $table->string('jenis');
-            $table->string('nama_pengirim');
-            $table->string('instansi');
-            $table->string('bidang');
-            $table->boolean('approved')->default(false);
-            $table->unsignedBigInteger('approved_by')->nullable(); // ID kepala bidang yang menyetujui
-            $table->timestamp('approved_at')->nullable(); // Waktu approval
+            $table->string('laporan_pengajuan_id');
+            $table->string('berita_id')->nullable();
+            $table->string('surat_masuk_id')->nullable();
+            $table->string('reporter_id')->nullable();
             $table->timestamps(); // ini akan menambahkan kolom created_at dan updated_at
-
-            // Menambahkan foreign key ke tabel users jika relasi dengan pengguna diperlukan
-            $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null');
         });
     }
 

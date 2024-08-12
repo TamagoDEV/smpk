@@ -68,10 +68,17 @@
                 Auth::user()->role === 'kepala_bidang' ||
                 Auth::user()->role === 'sub_bagian_approval')
             <li>
-                <a href="{{ route('pelaporan.index') }}">
-                    <div class="parent-icon"><i class="bi bi-book"></i></div>
-                    <div class="menu-title">Pelaporan</div>
+                <a class="has-arrow" href="javascript:;">
+                    <div class="parent-icon"><i class="bi bi-book"></i>
+                    </div>
+                    <div class="menu-title">Laporan</div>
                 </a>
+                <ul>
+                    <li> <a href="{{ route('pelaporan.index') }}"><i class="bi bi-circle"></i>Buat Laporan</a>
+                    </li>
+                    <li> <a href="{{ route('laporan.pengajuan') }}"><i class="bi bi-circle"></i>Pengajuan Laporan</a>
+                    </li>
+                </ul>
             </li>
         @endif
         <!--end navigation-->

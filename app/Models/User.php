@@ -70,4 +70,9 @@ class User extends Authenticatable
     {
         return self::$roleNames[$this->role] ?? $this->role;
     }
+
+    public function laporanPengajuan()
+    {
+        return $this->hasMany(LaporanPengajuan::class, 'approved_by');
+    }
 }

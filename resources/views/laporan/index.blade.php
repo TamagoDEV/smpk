@@ -29,14 +29,17 @@
                         <div class="col-md-3">
                             <select class="form-select" name="jenis_laporan" id="jenis_laporan">
                                 <option value="" disabled selected>Laporan Apa</option>
-                                <option value="berita">Berita</option>
+                                <option value="berita_website">Berita Website</option>
+                                <option value="berita_radio">Berita Radio</option>
+                                <option value="berita_youtube">Berita YouTube</option>
+                                <option value="berita_media">Berita Media</option>
                                 <option value="iklan">Surat Iklan</option>
                                 <option value="peliputan">Surat Peliputan</option>
                                 <option value="jadwal">Jadwal</option>
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <button id="printReport" type="button" class="btn btn-primary">Cetak Laporan</button>
+                            <button id="submitReport" type="button" class="btn btn-primary">Ajukan Laporan</button>
                         </div>
                     </div>
                 </form>
@@ -86,69 +89,67 @@
                         tableHeader.innerHTML = '';
 
                         let headers = [];
-                        if (jenis_laporan === 'berita') {
-                            headers = ['No', 'Tipe Media', 'Judul', 'Isi', 'Link YouTube', 'Audio',
-                                'Naskah', 'Keterangan'
+                        if (jenis_laporan.startsWith('berita')) {
+                            headers = ['No', 'Tipe Media', 'Judul', 'Isi', 'Link YouTube', 'Audio', 'Naskah',
+                                'Keterangan'
                             ];
                             data.forEach((report, index) => {
                                 const row = `
-                                <tr>
-                                    <td>${index + 1}</td>
-                                    <td>${report.tipe_media || 'N/A'}</td>
-                                    <td>${report.judul || 'N/A'}</td>
-                                    <td>${report.isi || 'N/A'}</td>
-                                    
-                                    <td>${report.link_youtube || 'N/A'}</td>
-                                    <td>${report.audio || 'N/A'}</td>
-                                    <td>${report.naskah || 'N/A'}</td>
-                                    <td>${report.keterangan || 'N/A'}</td>
-                                </tr>
-                            `;
+        <tr>
+            <td>${index + 1}</td>
+            <td>${report.tipe_media || 'N/A'}</td>
+            <td>${report.judul || 'N/A'}</td>
+            <td>${report.isi || 'N/A'}</td>
+            <td>${report.link_youtube || 'N/A'}</td>
+            <td>${report.audio || 'N/A'}</td>
+            <td>${report.naskah || 'N/A'}</td>
+            <td>${report.keterangan || 'N/A'}</td>
+        </tr>
+        `;
                                 tableBody.insertAdjacentHTML('beforeend', row);
                             });
                         } else if (jenis_laporan === 'iklan') {
                             headers = ['No', 'Nama Pengirim', 'Instansi', 'Bidang', 'Tanggal', 'Status'];
                             data.forEach((report, index) => {
                                 const row = `
-                                <tr>
-                                    <td>${index + 1}</td>
-                                    <td>${report.nama_pengirim || 'N/A'}</td>
-                                    <td>${report.instansi || 'N/A'}</td>
-                                    <td>${report.bidang || 'N/A'}</td>
-                                    <td>${new Date(report.created_at).toLocaleDateString()}</td>
-                                    <td>${report.approved ? 'Approved' : 'Pending'}</td>
-                                </tr>
-                            `;
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${report.nama_pengirim || 'N/A'}</td>
+                        <td>${report.instansi || 'N/A'}</td>
+                        <td>${report.bidang || 'N/A'}</td>
+                        <td>${new Date(report.created_at).toLocaleDateString()}</td>
+                        <td>${report.approved ? 'Approved' : 'Pending'}</td>
+                    </tr>
+                `;
                                 tableBody.insertAdjacentHTML('beforeend', row);
                             });
                         } else if (jenis_laporan === 'peliputan') {
                             headers = ['No', 'Nama Pengirim', 'Instansi', 'Bidang', 'Tanggal', 'Status'];
                             data.forEach((report, index) => {
                                 const row = `
-                                <tr>
-                                    <td>${index + 1}</td>
-                                    <td>${report.nama_pengirim || 'N/A'}</td>
-                                    <td>${report.instansi || 'N/A'}</td>
-                                    <td>${report.bidang || 'N/A'}</td>
-                                    <td>${new Date(report.created_at).toLocaleDateString()}</td>
-                                    <td>${report.approved ? 'Approved' : 'Pending'}</td>
-                                </tr>
-                            `;
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${report.nama_pengirim || 'N/A'}</td>
+                        <td>${report.instansi || 'N/A'}</td>
+                        <td>${report.bidang || 'N/A'}</td>
+                        <td>${new Date(report.created_at).toLocaleDateString()}</td>
+                        <td>${report.approved ? 'Approved' : 'Pending'}</td>
+                    </tr>
+                `;
                                 tableBody.insertAdjacentHTML('beforeend', row);
                             });
                         } else if (jenis_laporan === 'jadwal') {
-                            headers = ['No', 'Nama Surat', 'Nama Pengirim', 'Nama Pengguna', 'Tipe'];
-                            console.log('Data received for jadwal:', data); // Debugging data
+                            headers = ['No', 'Nama Surat', 'Nama Pengirim', 'Nama Reporter', 'Tipe'];
                             data.forEach((report, index) => {
                                 const row = `
-                                    <tr>
-                                    <td>${index + 1}</td>
-                                        <td>${report.surat_masuk ? report.surat_masuk.jenis : 'N/A'}</td>
-                                        <td>${report.surat_masuk ? report.surat_masuk.nama_pengirim : 'N/A'}</td>
-                                        <td>${report.user ? report.user.nama_lengkap : 'N/A'}</td>
-                                        <td>${report.tipe || 'N/A'}</td>
-                                    </tr>
-                                `;
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${report.surat_masuk ? report.surat_masuk.jenis : 'N/A'}</td>
+                            <td>${report.surat_masuk ? report.surat_masuk.nama_pengirim : 'N/A'}</td>
+                            <td>${report.user ? report.user.nama_lengkap : 'N/A'}</td>
+                            <td>${report.tipe || 'N/A'}</td>
+                        </tr>
+                    `;
                                 tableBody.insertAdjacentHTML('beforeend', row);
                             });
                         }
@@ -161,13 +162,32 @@
                     });
             }
 
-            document.getElementById('printReport').addEventListener('click', function() {
+            document.getElementById('submitReport').addEventListener('click', function() {
                 const bulan = document.querySelector('#bulan').value;
                 const tahun = document.querySelector('#tahun').value;
                 const jenis_laporan = document.querySelector('#jenis_laporan').value;
 
-                window.location.href =
-                    `{{ route('laporan.cetak') }}?bulan=${bulan}&tahun=${tahun}&jenis_laporan=${jenis_laporan}`;
+                fetch('{{ route('laporan.ajukan') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            bulan: bulan,
+                            tahun: tahun,
+                            jenis_laporan: jenis_laporan
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Laporan berhasil diajukan!');
+                            // Optionally, redirect or update UI based on response
+                        } else {
+                            alert('Gagal mengajukan laporan.');
+                        }
+                    });
             });
         });
     </script>

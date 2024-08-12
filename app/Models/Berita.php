@@ -42,4 +42,8 @@ class Berita extends Model
             $berita->slug = Str::slug($berita->judul);
         });
     }
+    public function laporan()
+    {
+        return $this->hasMany(Laporan::class, 'berita_id');
+    }
 }

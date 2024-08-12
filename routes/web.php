@@ -55,6 +55,10 @@ Route::middleware('userLogin')->group(function () {
 
     Route::get('laporan', [PelaporanController::class, 'index'])->name('pelaporan.index');
     Route::get('laporan/filter', [PelaporanController::class, 'filter'])->name('laporan.filter');
-    Route::get('laporan/approve/{id}', [PelaporanController::class, 'approve'])->name('laporan.approve');
-    Route::get('laporan/cetak', [PelaporanController::class, 'cetak'])->name('laporan.cetak');
+    // Route to print the report
+    Route::get('/laporan/cetak/{id}', [PelaporanController::class, 'cetak'])->name('laporan.cetak');
+    Route::post('/laporan/ajukan', [PelaporanController::class, 'ajukan'])->name('laporan.ajukan');
+    Route::get('laporan/pengajuan', [PelaporanController::class, 'pengajuan'])->name('laporan.pengajuan');
+    // Melakukan approval laporan
+    Route::patch('/laporan/{id}/approve', [PelaporanController::class, 'approve'])->name('laporan.approve');
 });
