@@ -15,7 +15,7 @@ class BeritaTableSeeder extends Seeder
     {
         Berita::create([
             'tipe_media' => 'website',
-            'surat_id' => 1,  // Pastikan ID ini ada di tabel surat_masuk
+            'surat_masuk_id' => 1,  // Pastikan ID ini ada di tabel surat_masuk
             'slug' => 'peluncuran-produk',
             'judul' => 'Peluncuran Produk Baru PT. ABC',
             'isi' => 'PT. ABC meluncurkan produk baru pada tanggal 15 Juli 2024 di Jakarta...',

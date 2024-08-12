@@ -53,5 +53,8 @@ Route::middleware('userLogin')->group(function () {
         Route::delete('/{berita}', [BeritaController::class, 'destroy'])->name('berita.destroy');
     });
 
-    Route::get('/laporan', [PelaporanController::class, 'index'])->name('pelaporan.index');
+    Route::get('laporan', [PelaporanController::class, 'index'])->name('pelaporan.index');
+    Route::get('laporan/filter', [PelaporanController::class, 'filter'])->name('laporan.filter');
+    Route::get('laporan/approve/{id}', [PelaporanController::class, 'approve'])->name('laporan.approve');
+    Route::get('laporan/cetak', [PelaporanController::class, 'cetak'])->name('laporan.cetak');
 });
