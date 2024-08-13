@@ -15,7 +15,7 @@
                                 <th>Nama Pengirim</th>
                                 <th>Tanggal dibuat</th>
                                 <th>Approval</th>
-                                <th style="text-align: center;">#</th>
+                                {{-- <th style="text-align: center;">#</th> --}}
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -28,14 +28,14 @@
                                     <td>{{ $sm->created_at }}</td>
 
                                     <td>{{ ucwords($sm->kepalaBidang->nama_lengkap ?? '-') }}</td>
-                                    <td style="text-align:
+                                    {{-- <td style="text-align:
                                     center;">
                                         <button type="button" class="btn btn-success btn-sm" data-id="{{ $sm->id }}"
                                             onclick="showDetails({{ $sm->id }})"
                                             @if (!$sm->kepalaBidang) disabled @endif title="Unduh Surat Iklan">
                                             <i class="lni lni-download" style="margin-left: -1px; text-align:center;"></i>
                                         </button>
-                                    </td>
+                                    </td> --}}
                                     <td>
                                         <button type="button" class="btn btn-info btn-sm" data-id="{{ $sm->id }}"
                                             onclick="showDetails({{ $sm->id }})">Detail</button>
