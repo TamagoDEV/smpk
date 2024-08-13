@@ -23,11 +23,12 @@
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
                                     <td>
-                                        @if ($beritaItem->suratMasuk)
+                                        @if ($beritaItem->reporters->isNotEmpty())
                                             @php
-                                                $firstReporter = $beritaItem->suratMasuk->reporters->first();
+                                                // Mengambil reporter pertama
+                                                $firstReporter = $beritaItem->reporters->first();
                                             @endphp
-                                            {{ $firstReporter ? $firstReporter->user->nama_lengkap : 'N/A' }}
+                                            {{ $firstReporter->user->nama_lengkap ?? 'N/A' }}
                                         @else
                                             N/A
                                         @endif

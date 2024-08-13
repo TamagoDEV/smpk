@@ -11,7 +11,9 @@ class BeritaController extends Controller
 {
     public function index()
     {
-        $berita = Berita::with(['suratMasuk.reporters.user'])->get();
+        // Mengambil data berita beserta relasi reporters dan user dari suratMasuk
+        $berita = Berita::with(['reporters.user'])->get();
+
         return view('berita.index', [
             'title' => 'Data Berita',
             'berita' => $berita,

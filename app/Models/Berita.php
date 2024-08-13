@@ -46,4 +46,9 @@ class Berita extends Model
     {
         return $this->hasMany(Laporan::class, 'berita_id');
     }
+
+    public function reporters()
+    {
+        return $this->hasMany(Reporters::class, 'berita_id');
+    }
 }
