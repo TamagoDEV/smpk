@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             SuratMasukTableSeeder::class,
             ReporterTableSeeder::class,
             BeritaTableSeeder::class,
+            BeritaReporterTableSeeder::class
         ]);
     }
 }

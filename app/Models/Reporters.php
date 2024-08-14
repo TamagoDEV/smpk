@@ -29,4 +29,10 @@ class Reporters extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function berita()
+    {
+        return $this->belongsToMany(Berita::class, 'berita_reporter', 'reporter_id', 'berita_id')
+            ->withTimestamps();
+    }
 }

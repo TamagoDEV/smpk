@@ -62,7 +62,6 @@ class BeritaController extends Controller
             'keterangan' => 'nullable|string',
         ]);
 
-
         if ($request->hasFile('foto')) {
             $validatedData['foto'] = $request->file('foto')->store('foto');
         }
@@ -78,15 +77,14 @@ class BeritaController extends Controller
         // Buat berita baru
         $berita = Berita::create($validatedData);
 
-        // Update reporter dengan berita_id
+        // Simpan hubungan antara berita dan reporter di tabel pivot
         if ($request->filled('reporter_id')) {
-            $reporter = Reporters::find($request->input('reporter_id'));
-            if ($reporter) {
-                $reporter->update(['berita_id' => $berita->id]);
-            }
+            $berita->reporters()->attach($request->input('reporter_id'));
         }
+
         return redirect()->route('berita.index')->with('success', 'Berita berhasil dibuat.');
     }
+
 
 
     public function show($id)
