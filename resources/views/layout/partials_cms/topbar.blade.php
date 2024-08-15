@@ -28,7 +28,8 @@
                                 <img src="{{ asset('storage/' . Auth::user()->foto) }}" class="user-img"
                                     alt="User Image">
                             @else
-                                <img src="assets/images/avatars/avatar-1.png" class="user-img" alt="Default Image">
+                                <img src="{{ asset('assets/images/avatars/avatar-1.png') }}" class="user-img"
+                                    alt="Default Image">
                             @endif
                         </div>
                     </a>

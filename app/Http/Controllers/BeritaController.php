@@ -6,14 +6,14 @@ use App\Models\Berita;
 use App\Models\Reporters;
 use App\Models\SuratMasuk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BeritaController extends Controller
 {
     public function index()
     {
         // Mengambil data berita beserta relasi reporters dan user dari suratMasuk
-        $berita = Berita::with(['reporters.user'])->get();
-
+        $berita = Berita::with(['reporters.user', 'approvedBy'])->get();
         return view('berita.index', [
             'title' => 'Data Berita',
             'berita' => $berita,
@@ -133,6 +133,31 @@ class BeritaController extends Controller
         $berita->update($validatedData);
 
         return redirect()->route('berita.index')->with('success', 'Berita berhasil diupdate.');
+    }
+
+    public function approve($id)
+    {
+        $berita = Berita::findOrFail($id);
+
+        if ($berita->approved_by) {
+            return redirect()->route('berita.index')->with('error', 'Berita ini sudah di-approve.');
+        }
+
+        $berita->approved_by = Auth::id();
+        $berita->approved_at = now();
+        $berita->save();
+
+        return redirect()->route('berita.index')->with('success', 'Berita berhasil di-approve.');
+    }
+
+    public function reject($id)
+    {
+        $berita = Berita::findOrFail($id);
+        $berita->rejected_by = Auth::id();
+        $berita->rejected_at = now();
+        $berita->save();
+
+        return redirect()->route('berita.index')->with('success', 'Berita berhasil ditolak.');
     }
 
     public function destroy(Berita $berita)

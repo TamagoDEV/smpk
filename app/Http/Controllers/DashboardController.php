@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Berita;
 use App\Models\Laporan;
 use App\Models\Reporters;
 use App\Models\SuratMasuk;
@@ -38,8 +39,11 @@ class DashboardController extends Controller
             $data['assignedTasks'] = Reporters::where('user_id', Auth::id())->count();
             $data['upcomingEvents'] = Reporters::where('user_id', Auth::id())->where('created_at', '>=', now())->count(); // Use created_at instead of event_date
         } elseif ($userRole == 'sub_bagian_approval') {
-            $data['pendingReports'] = Laporan::where('approved', false)->count();
-            // $data['newsSubmissions'] = Laporan::where('status', 'pending')->count();
+            // Menghitung jumlah berita yang belum di-approve
+            $data['pendingReports'] = Berita::whereNull('approved_by')->count();
+
+            // Menghitung jumlah berita yang sudah di-approve oleh user yang sedang login
+            $data['approvedReports'] = Berita::where('approved_by', Auth::user()->id)->count();
         }
 
         return view('dashboard', $data);

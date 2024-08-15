@@ -183,10 +183,10 @@
                     <!-- Kartu: Laporan yang Tertunda -->
                     <div class="col-md-4">
                         <div class="card">
-                            <div class="card-header">Laporan yang Tertunda</div>
+                            <div class="card-header">Data Berita</div>
                             <div class="card-body">
-                                <h5>{{ $pendingReports }}</h5>
-                                <p>Jumlah laporan yang menunggu persetujuan.</p>
+                                <h5>{{ $approvedReports }}</h5>
+                                <p>Berita yang sudah di approve.</p>
                             </div>
                         </div>
                     </div>

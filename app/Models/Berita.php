@@ -51,6 +51,18 @@ class Berita extends Model
     // {
     //     return $this->hasMany(Reporters::class, 'berita_id');
     // }
+
+    // Relasi ke model User
+    public function approvedBy()
+    {
+        return $this->belongsTo(User::class, 'approved_by');
+    }
+
+    public function rejectedBy()
+    {
+        return $this->belongsTo(User::class, 'rejected_by');
+    }
+
     public function reporters()
     {
         return $this->belongsToMany(Reporters::class, 'berita_reporter', 'berita_id', 'reporter_id')

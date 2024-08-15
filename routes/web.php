@@ -51,6 +51,8 @@ Route::middleware('userLogin')->group(function () {
         Route::get('/{berita}/edit', [BeritaController::class, 'edit'])->name('berita.edit');
         Route::put('/{berita}', [BeritaController::class, 'update'])->name('berita.update');
         Route::delete('/{berita}', [BeritaController::class, 'destroy'])->name('berita.destroy');
+        Route::post('/{id}/approve', [BeritaController::class, 'approve'])->name('berita.approve');
+        Route::post('/{id}/reject', [BeritaController::class, 'reject'])->name('berita.reject');
     });
 
     Route::get('laporan', [PelaporanController::class, 'index'])->name('pelaporan.index');
