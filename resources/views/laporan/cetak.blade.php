@@ -12,6 +12,28 @@
             padding: 0;
         }
 
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header img {
+            height: 80px;
+            vertical-align: middle;
+        }
+
+        .header div {
+            display: inline-block;
+            vertical-align: middle;
+            text-align: left;
+        }
+
+        .header h3,
+        .header p {
+            margin: 0;
+            padding: 0;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -39,14 +61,28 @@
 </head>
 
 <body>
-    <h1>Laporan Pengajuan</h1>
-    <h2>Detail Pengajuan</h2>
+    <div class="header">
+        <?php
+        $path = public_path('assets/img/logo.png');
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+        ?>
+        <div style="display: flex; align-items: center; border-bottom: 2px solid #000; padding-bottom: 10px;">
+            <img src="<?= $base64 ?>" alt="logo icon" style="width: 70px; height: auto; margin-right: 20px;">
+            <div style="text-align:center;">
+                <h3 style="margin: 0; font-size: 18px;">Dinas Komunikasi dan Informatika Kabupaten Tanah Laut</h3>
+                <p style="margin: 0; font-size: 14px;">
+                    Jl. A. Syairani Komplek Perkantoran Gagas, Kecamatan Pelaihari, Kabupaten Tanah Laut, Provinsi
+                    Kalimantan Selatan 70814<br>
+                    Telp: 0822 5081 5857 | Email: kominfo.tala@gmail.com
+                </p>
+            </div>
+        </div>
+    </div>
+    </div>
 
-    <p><strong>Nama Pengajuan:</strong> {{ $laporanPengajuan->nama_pengajuan }}</p>
-    <p><strong>Keterangan:</strong> {{ $laporanPengajuan->keterangan }}</p>
-    <p><strong>Status:</strong> {{ $laporanPengajuan->approved ? 'Approved' : 'Pending' }}</p>
-
-    <h3>Daftar Laporan</h3>
+    <h3>Laporan Pengajuan Liputan Yang Telah Diproses</h3>
 
     @if ($laporanPengajuan->laporan->count() > 0)
         @foreach ($laporanPengajuan->laporan as $laporan)
@@ -133,14 +169,16 @@
     @else
         <p>Tidak ada laporan untuk ditampilkan.</p>
     @endif
-
     <!-- Signature and QR Code -->
     <div style="margin-top: 40px;">
         <h3>Signature</h3>
         <p><strong>Tanggal Pengajuan:</strong>
-            {{ \Carbon\Carbon::parse($laporanPengajuan->tanggal_pengajuan)->format('d-m-Y') }}</p>
-        <img src="{{ $qrCodeUrl }}" alt="QR Code">
+            {{ \Carbon\Carbon::parse($laporanPengajuan->tanggal_pengajuan)->locale('id')->format('d F Y') }}</p>
+        <p><strong>Tanda Tangan Pengesah</strong></p>
+        <img src="{{ $qrCodeUrl }}" alt="QR Code" style="display: block; margin: 10px 0;">
+        <p><strong>{{ $laporanPengajuan->approvedBy->nama_lengkap }}</strong> </p>
     </div>
+
 </body>
 
 </html>
