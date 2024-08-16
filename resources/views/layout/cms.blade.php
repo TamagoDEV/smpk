@@ -13,7 +13,7 @@
     <link href="{{ url('assets/plugins/datatable/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet" />
     <link href="{{ url('assets/plugins/smart-wizard/css/smart_wizard_all.min.css') }}" rel="stylesheet"
         type="text/css" />
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Bootstrap CSS -->
     <link href="{{ url('assets/css/bootstrap.min.css') }}" rel="stylesheet" />
     <link href="{{ url('assets/css/bootstrap-extended.css') }}" rel="stylesheet" />

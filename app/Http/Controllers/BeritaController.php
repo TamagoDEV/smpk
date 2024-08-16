@@ -63,7 +63,8 @@ class BeritaController extends Controller
         ]);
 
         if ($request->hasFile('foto')) {
-            $validatedData['foto'] = $request->file('foto')->store('foto');
+            $fotoPath = $request->file('foto')->store('foto', 'public');
+            $validatedData['foto'] = $fotoPath;
         }
 
         if ($request->hasFile('audio')) {
@@ -119,7 +120,8 @@ class BeritaController extends Controller
         ]);
 
         if ($request->hasFile('foto')) {
-            $validatedData['foto'] = $request->file('foto')->store('foto');
+            $fotoPath = $request->file('foto')->store('foto', 'public');
+            $validatedData['foto'] = $fotoPath;
         }
 
         if ($request->hasFile('audio')) {
@@ -164,5 +166,51 @@ class BeritaController extends Controller
     {
         $berita->delete();
         return redirect()->route('berita.index')->with('success', 'Berita berhasil dihapus.');
+    }
+
+    // Dalam BeritaController.php
+    public function updateStatusPublikPrivate(Request $request, $id)
+    {
+        $berita = Berita::find($id);
+        if (!$berita) {
+            return response()->json(['success' => false, 'message' => 'Berita tidak ditemukan.']);
+        }
+
+        $status = $request->input('status');
+        if (!in_array($status, ['private', 'publik'])) {
+            return response()->json(['success' => false, 'message' => 'Status tidak valid.']);
+        }
+
+        $berita->status = $status;
+        $berita->save();
+
+        return response()->json(['success' => true]);
+    }
+    // Dalam BeritaController.php
+    public function publikBerita()
+    {
+        // Mengambil data berita yang statusnya 'publik' dan tipe_media-nya 'website'
+        $berita = Berita::with(['reporters.user', 'approvedBy'])
+            ->where('status', 'publik')
+            ->where('tipe_media', 'website')
+            ->get();
+
+        return view('berita', [
+            'title' => 'Daftar Berita',
+            'berita' => $berita,
+        ]);
+    }
+
+    // Dalam BeritaController.php
+    public function detailBerita($id)
+    {
+        // Mengambil data berita berdasarkan ID yang diberikan
+        $berita = Berita::with(['reporters.user', 'approvedBy', 'suratMasuk'])
+            ->where('id', $id)
+            ->firstOrFail();
+        return view('detailberita', [
+            'title' => 'Detail Berita',
+            'berita' => $berita,
+        ]);
     }
 }

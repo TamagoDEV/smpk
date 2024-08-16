@@ -23,6 +23,7 @@ class Berita extends Model
         'audio',
         'naskah',
         'keterangan',
+        'status',
     ];
 
     public function suratMasuk()

@@ -9,9 +9,12 @@ use App\Http\Controllers\SuratMasukController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [SuratMasukController::class, 'index'])->name('home');
+// Route::get('/', [SuratMasukController::class, 'index'])->name('home');
 Route::get('/kirim-surat', [SuratMasukController::class, 'index'])->name('kirim-surat');
 Route::post('/submit', [SuratMasukController::class, 'submit'])->name('submit-surat');
+Route::get('/daftar-berita', [BeritaController::class, 'publikBerita'])->name('daftarberita.index');
+Route::get('/', [BeritaController::class, 'publikBerita'])->name('home');
+Route::get('/detail-berita/{id}', [BeritaController::class, 'detailBerita'])->name('berita.detail-publik');
 
 Route::prefix('auth')->group(function () {
     Route::get('/login', [AuthController::class, 'login'])->name('login');
@@ -53,6 +56,7 @@ Route::middleware('userLogin')->group(function () {
         Route::delete('/{berita}', [BeritaController::class, 'destroy'])->name('berita.destroy');
         Route::post('/{id}/approve', [BeritaController::class, 'approve'])->name('berita.approve');
         Route::post('/{id}/reject', [BeritaController::class, 'reject'])->name('berita.reject');
+        Route::post('/status-publik-private-update/{id}', [BeritaController::class, 'updateStatusPublikPrivate'])->name('berita.status-publik-private-update');
     });
 
     Route::get('laporan', [PelaporanController::class, 'index'])->name('pelaporan.index');

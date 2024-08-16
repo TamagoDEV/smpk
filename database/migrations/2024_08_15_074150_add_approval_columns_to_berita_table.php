@@ -16,6 +16,7 @@ return new class extends Migration
             $table->timestamp('approved_at')->nullable();
             $table->unsignedBigInteger('rejected_by')->nullable();
             $table->timestamp('rejected_at')->nullable();
+            $table->enum('status', ['private', 'publik'])->default('private');
 
             $table->foreign('rejected_by')->references('id')->on('users')->onDelete('set null');
         });
@@ -29,6 +30,7 @@ return new class extends Migration
         Schema::table('berita', function (Blueprint $table) {
             $table->dropForeign(['approved_by']);
             $table->dropColumn(['approved_by', 'approved_at']);
+            $table->dropColumn('status');
         });
     }
 };

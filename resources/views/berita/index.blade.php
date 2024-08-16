@@ -16,6 +16,7 @@
                                 <th>Jenis Berita</th>
                                 <th>Judul Berita</th>
                                 <th>Approval</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -53,6 +54,16 @@
                                         @endif
                                     </td>
                                     <td>
+                                        @if (auth()->user()->role === 'sub_bagian_approval' && $beritaItem->approved_by)
+                                            <button type="button" class="btn btn-info btn-sm toggle-status"
+                                                data-id="{{ $beritaItem->id }}" data-status="{{ $beritaItem->status }}">
+                                                {{ $beritaItem->status === 'private' ? 'Set Publik' : 'Set Private' }}
+                                            </button>
+                                        @else
+                                            {{ $beritaItem->status === 'private' ? 'Private' : 'Publik' }}
+                                        @endif
+                                    </td>
+                                    <td>
                                         <a href="{{ route('berita.detail', $beritaItem->id) }}"
                                             class="btn btn-info btn-sm">Detail Berita</a>
 
@@ -77,7 +88,6 @@
                                             data-bs-target="#buatBeritaModal" data-id="{{ $beritaItem->id }}">Hapus
                                             Berita</button>
                                     </td>
-
                                 </tr>
                             @endforeach
                         </tbody>
@@ -105,6 +115,45 @@
                         e.preventDefault(); // Mencegah pengiriman form
                     }
                 });
+            });
+
+            // Handle toggle status via button
+            document.querySelectorAll('.toggle-status').forEach(button => {
+                button.addEventListener('click', function() {
+                    const beritaId = this.getAttribute('data-id');
+                    const currentStatus = this.getAttribute('data-status');
+                    const newStatus = currentStatus === 'private' ? 'publik' : 'private';
+
+                    console.log(
+                        `Sending request to update status: ID=${beritaId}, Status=${newStatus}`);
+
+                    fetch(`/berita/status-publik-private-update/${beritaId}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector(
+                                    'meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({
+                                status: newStatus
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log('Response data:', data);
+                            if (data.success) {
+                                this.textContent = newStatus === 'private' ? 'Set Publik' :
+                                    'Set Private';
+                                this.setAttribute('data-status', newStatus);
+                            } else {
+                                alert('Gagal memperbarui status berita.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                });
+
             });
         });
     </script>
