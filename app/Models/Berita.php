@@ -69,4 +69,9 @@ class Berita extends Model
         return $this->belongsToMany(Reporters::class, 'berita_reporter', 'berita_id', 'reporter_id')
             ->withTimestamps();
     }
+
+    public function komentar()
+    {
+        return $this->hasMany(Komentar::class);
+    }
 }

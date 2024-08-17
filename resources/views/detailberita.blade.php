@@ -217,6 +217,26 @@
                                 Berita</a>
                         </div>
                     </div>
+                    <hr style="margin-top: 20px;">
+                    <h5>Tambah Komentar</h5>
+                    <form action="{{ route('komentar.store') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="berita_id" value="{{ $berita->id }}">
+                        <div class="mb-3">
+                            <textarea name="isi" class="form-control" rows="3" placeholder="Tambahkan komentar..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Kirim Komentar</button>
+                    </form>
+
+                    <!-- Daftar Komentar -->
+                    <h5 style="margin-top: 10px;">Komentar</h5>
+                    @foreach ($berita->komentar as $komentar)
+                        <div class="mb-2">
+                            <p>{{ $komentar->isi }}</p>
+                            <small>{{ $komentar->created_at->format('d M Y, H:i') }}</small>
+                            <hr>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </main>

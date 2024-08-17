@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KomentarController;
 use App\Http\Controllers\PelaporanController;
 use App\Http\Controllers\ReporterController;
 use App\Http\Controllers\SuratMasukController;
@@ -15,6 +16,7 @@ Route::post('/submit', [SuratMasukController::class, 'submit'])->name('submit-su
 Route::get('/daftar-berita', [BeritaController::class, 'publikBerita'])->name('daftarberita.index');
 Route::get('/', [BeritaController::class, 'publikBerita'])->name('home');
 Route::get('/detail-berita/{id}', [BeritaController::class, 'detailBerita'])->name('berita.detail-publik');
+Route::post('/komentar/store', [KomentarController::class, 'store'])->name('komentar.store');
 
 Route::prefix('auth')->group(function () {
     Route::get('/login', [AuthController::class, 'login'])->name('login');
