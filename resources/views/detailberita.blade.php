@@ -11,8 +11,7 @@
     <link href="{{ asset('assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/plugins/metismenu/css/metisMenu.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/plugins/datatable/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/plugins/smart-wizard/css/smart_wizard_all.min.css') }}" rel="stylesheet"
-        type="text/css" />
+    <link href="{{ asset('assets/plugins/smart-wizard/css/smart_wizard_all.min.css') }}" rel="stylesheet" type="text/css" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Bootstrap CSS -->
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" />
@@ -81,8 +80,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 20px;">
             <a class="navbar-brand" href="/" style="margin-left: 20px;">Sistem Manajemen Pemberitahuan
                 Komunikasi</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -103,11 +101,8 @@
 
         <!--start switcher-->
         <div class="switcher-body">
-            <button class="btn btn-primary btn-switcher shadow-sm" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><i
-                    class="bi bi-paint-bucket me-0"></i></button>
-            <div class="offcanvas offcanvas-end shadow border-start-0 p-2" data-bs-scroll="true"
-                data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling">
+            <button class="btn btn-primary btn-switcher shadow-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><i class="bi bi-paint-bucket me-0"></i></button>
+            <div class="offcanvas offcanvas-end shadow border-start-0 p-2" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling">
                 <div class="offcanvas-header border-bottom">
                     <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Theme Customizer</h5>
                     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
@@ -116,8 +111,7 @@
                     <h6 class="mb-0">Theme Variation</h6>
                     <hr>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="theme" id="theme-light" value="light"
-                            checked>
+                        <input class="form-check-input" type="radio" name="theme" id="theme-light" value="light" checked>
                         <label class="form-check-label" for="theme-light">Light</label>
                     </div>
                     <div class="form-check form-check-inline">
@@ -125,8 +119,7 @@
                         <label class="form-check-label" for="theme-dark">Dark</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="theme" id="theme-semi-dark"
-                            value="semi-dark">
+                        <input class="form-check-input" type="radio" name="theme" id="theme-semi-dark" value="semi-dark">
                         <label class="form-check-label" for="theme-semi-dark">Semi-Dark</label>
                     </div>
                     <hr>
@@ -156,50 +149,48 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title mb-3">Detail Berita</h5>
-                                <p><strong>Tipe Media:</strong> {{ ucwords(strtolower($berita->tipe_media)) }}</p>
-                                <p><strong>Jenis Berita:</strong>
-                                    {{ ucwords(strtolower($berita->suratMasuk->jenis ?? 'N/A')) }}
-                                </p>
-                                <p><strong>Isi:</strong></p>
-                                <div class="mb-4">{!! nl2br(e($berita->isi)) !!}</div>
+
 
                                 @if ($berita->foto)
-                                    <div class="mb-4">
-                                        <strong>Foto:</strong>
-                                        <img src="{{ Storage::url($berita->foto) }}" class="img-fluid mt-2"
-                                            alt="Foto Berita">
-                                    </div>
-                                @endif
-
-                                @if ($berita->link_youtube)
-                                    <div class="mb-4">
-                                        <strong>Link YouTube:</strong> <a href="{{ $berita->link_youtube }}"
-                                            target="_blank" class="btn btn-outline-danger mt-2">Tonton Video</a>
-                                    </div>
-                                @endif
-
-                                @if ($berita->audio)
-                                    <div class="mb-4">
-                                        <strong>Audio:</strong>
-                                        <audio controls class="w-100 mt-2">
-                                            <source src="{{ Storage::url($berita->audio) }}" type="audio/mpeg">
-                                            Your browser does not support the audio element.
-                                        </audio>
-                                    </div>
-                                @endif
-
-                                @if ($berita->naskah)
-                                    <div class="mb-4">
-                                        <strong>Naskah:</strong> <a href="{{ Storage::url($berita->naskah) }}"
-                                            target="_blank" class="btn btn-outline-primary mt-2">Download Naskah</a>
-                                    </div>
+                                <div class="mb-4">
+                                    <center>
+                                        <strong></strong>
+                                        <img src="{{ Storage::url($berita->foto) }}" class="img-fluid mt-2" alt="Foto Berita">
+                                    </center>
+                                </div>
                                 @endif
 
                                 @if ($berita->keterangan)
-                                    <div class="mb-4">
-                                        <strong>Keterangan:</strong> {{ $berita->keterangan }}
-                                    </div>
+                                <div class="mb-4">
+                                    <strong>Keterangan:</strong> {{ $berita->keterangan }}
+                                </div>
                                 @endif
+
+
+                                <div class="mb-4">{!! nl2br(e($berita->isi)) !!}</div>
+
+                                @if ($berita->link_youtube)
+                                <div class="mb-4">
+                                    <strong>Link YouTube:</strong> <a href="{{ $berita->link_youtube }}" target="_blank" class="btn btn-outline-danger mt-2">Tonton Video</a>
+                                </div>
+                                @endif
+
+                                @if ($berita->audio)
+                                <div class="mb-4">
+                                    <strong>Audio:</strong>
+                                    <audio controls class="w-100 mt-2">
+                                        <source src="{{ Storage::url($berita->audio) }}" type="audio/mpeg">
+                                        Your browser does not support the audio element.
+                                    </audio>
+                                </div>
+                                @endif
+
+                                @if ($berita->naskah)
+                                <div class="mb-4">
+                                    <strong>Naskah:</strong> <a href="{{ Storage::url($berita->naskah) }}" target="_blank" class="btn btn-outline-primary mt-2">Download Naskah</a>
+                                </div>
+                                @endif
+
                             </div>
                         </div>
                     </div>
@@ -231,11 +222,11 @@
                     <!-- Daftar Komentar -->
                     <h5 style="margin-top: 10px;">Komentar</h5>
                     @foreach ($berita->komentar as $komentar)
-                        <div class="mb-2">
-                            <p>{{ $komentar->isi }}</p>
-                            <small>{{ $komentar->created_at->format('d M Y, H:i') }}</small>
-                            <hr>
-                        </div>
+                    <div class="mb-2">
+                        <p>{{ $komentar->isi }}</p>
+                        <small>{{ $komentar->created_at->format('d M Y, H:i') }}</small>
+                        <hr>
+                    </div>
                     @endforeach
                 </div>
             </div>
