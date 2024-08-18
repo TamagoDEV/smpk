@@ -143,13 +143,14 @@
                 </table>
             @elseif ($laporan->reporter)
                 <!-- Reporter -->
-                <h4>Reporter</h4>
+                <h4>Jadwal</h4>
                 <table>
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Nama Surat</th>
-                            <th>Nama Pengirim</th>
+                            <th>Nama Acara</th>
+                            <th>Tanggal Acara</th>
+                            <th>Tempat</th>
                             <th>Nama Reporter</th>
                             <th>Tipe</th>
                         </tr>
@@ -157,9 +158,10 @@
                     <tbody>
                         <tr>
                             <td>1</td>
-                            <td>{{ $laporan->reporter->nama_surat ?? 'N/A' }}</td>
-                            <td>{{ $laporan->reporter->nama_pengirim ?? 'N/A' }}</td>
-                            <td>{{ $laporan->reporter->nama_lengkap ?? 'N/A' }}</td>
+                            <td>{{ $laporan->reporter->suratMasuk->nama_acara ?? 'N/A' }}</td>
+                            <td>{{ $laporan->reporter->suratMasuk->tanggal_acara ?? 'N/A' }}</td>
+                            <td>{{ $laporan->reporter->suratMasuk->lokasi_acara ?? 'N/A' }}</td>
+                            <td>{{ $laporan->reporter->user->nama_lengkap ?? 'N/A' }}</td>
                             <td>{{ $laporan->reporter->tipe ?? 'N/A' }}</td>
                         </tr>
                     </tbody>

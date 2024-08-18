@@ -51,7 +51,7 @@ class BeritaController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'tipe_media' => 'required|in:website,radio,youtube,media_lain',
+            'tipe_media' => 'required|in:website,radio,youtube,media',
             'surat_masuk_id' => 'required',
             'judul' => 'required|string|max:255',
             'isi' => 'required|string',

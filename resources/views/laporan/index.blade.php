@@ -139,14 +139,15 @@
                                 tableBody.insertAdjacentHTML('beforeend', row);
                             });
                         } else if (jenis_laporan === 'jadwal') {
-                            headers = ['No', 'Nama Surat', 'Nama Pengirim', 'Nama Reporter', 'Tipe'];
+                            headers = ['No', 'Nama Acara', 'Tanggal Acara', 'Tempat', 'Nama Reporter', 'Tipe'];
                             data.forEach((report, index) => {
                                 const row = `
                         <tr>
                             <td>${index + 1}</td>
-                            <td>${report.surat_masuk ? report.surat_masuk.jenis : 'N/A'}</td>
-                            <td>${report.surat_masuk ? report.surat_masuk.nama_pengirim : 'N/A'}</td>
-                            <td>${report.user ? report.user.nama_lengkap : 'N/A'}</td>
+                            <td>${report.surat_masuk ? report.surat_masuk.nama_acara : 'N/A'}</td>
+                            <td>${report.surat_masuk ? report.surat_masuk.tanggal_acara : 'N/A'}</td>
+                            <td>${report.user ? report.surat_masuk.lokasi_acara: 'N/A'}</td>
+                            <td>${report.user ? report.user.nama_lengkap: 'N/A'}</td>
                             <td>${report.tipe || 'N/A'}</td>
                         </tr>
                     `;

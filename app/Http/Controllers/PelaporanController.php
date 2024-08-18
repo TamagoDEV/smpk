@@ -108,8 +108,8 @@ class PelaporanController extends Controller
     public function cetak($id)
     {
         // Temukan laporan_pengajuan
-        $laporanPengajuan = LaporanPengajuan::with('laporan.berita', 'laporan.suratMasuk', 'laporan.reporter')->findOrFail($id);
-
+        $laporanPengajuan = LaporanPengajuan::with('laporan.berita', 'laporan.suratMasuk', 'laporan.reporter.suratMasuk', 'laporan.reporter.user')->findOrFail($id);
+        // dd($laporanPengajuan);
         // Format data QR Code
         $approvedAtFormatted = $laporanPengajuan->approved_at;
         $qrCodeText = "Laporan ID: {$laporanPengajuan->id}\nApproved By: {$laporanPengajuan->approvedBy->nama_lengkap}\nApproved At: {$approvedAtFormatted}";

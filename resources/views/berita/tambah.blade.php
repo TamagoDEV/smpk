@@ -38,7 +38,7 @@
                                     <option value="website">Website</option>
                                     <option value="radio">Radio</option>
                                     <option value="youtube">YouTube</option>
-                                    <option value="media_lain">Media Lain</option>
+                                    <option value="media">Media</option>
                                 </select>
                                 @error('tipe_media')
                                     <div class="text-danger">{{ $message }}</div>
