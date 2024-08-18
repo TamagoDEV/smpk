@@ -95,44 +95,7 @@
         <div class="overlay nav-toggle-icon"></div>
         <!--end overlay-->
 
-        <!--Start Back To Top Button-->
-        <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
-        <!--End Back To Top Button-->
 
-        <!--start switcher-->
-        <div class="switcher-body">
-            <button class="btn btn-primary btn-switcher shadow-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><i class="bi bi-paint-bucket me-0"></i></button>
-            <div class="offcanvas offcanvas-end shadow border-start-0 p-2" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling">
-                <div class="offcanvas-header border-bottom">
-                    <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Theme Customizer</h5>
-                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <h6 class="mb-0">Theme Variation</h6>
-                    <hr>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="theme" id="theme-light" value="light" checked>
-                        <label class="form-check-label" for="theme-light">Light</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="theme" id="theme-dark" value="dark">
-                        <label class="form-check-label" for="theme-dark">Dark</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="theme" id="theme-semi-dark" value="semi-dark">
-                        <label class="form-check-label" for="theme-semi-dark">Semi-Dark</label>
-                    </div>
-                    <hr>
-                    <h6 class="mb-0">Header Colors</h6>
-                    <hr>
-                    <div class="color-picker">
-                        <input type="color" id="header-color" value="#343a40">
-                        <label for="header-color">Header Color</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--end switcher-->
 
         <!--start sidebar-->
         <aside class="sidebar">
@@ -148,7 +111,7 @@
                     <div class="col-lg-8">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title mb-3">Detail Berita</h5>
+
 
 
                                 @if ($berita->foto)
