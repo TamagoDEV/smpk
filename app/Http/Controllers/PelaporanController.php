@@ -40,21 +40,29 @@ class PelaporanController extends Controller
 
     public function filter(Request $request)
     {
-        $query = collect(); // Initialize a collection
+        $query = collect();  // Initialize query as null
 
         if ($request->filled('jenis_laporan')) {
             switch ($request->jenis_laporan) {
                 case 'berita_website':
-                    $query = Berita::query()->where('tipe_media', 'website');
+                    $query = Berita::query()
+                        ->where('tipe_media', 'website')
+                        ->with('reporters.user'); // Eager load the reporters and their associated user
                     break;
                 case 'berita_radio':
-                    $query = Berita::query()->where('tipe_media', 'radio');
+                    $query = Berita::query()
+                        ->where('tipe_media', 'radio')
+                        ->with('reporters.user'); // Eager load the reporters and their associated user
                     break;
                 case 'berita_youtube':
-                    $query = Berita::query()->where('tipe_media', 'youtube');
+                    $query = Berita::query()
+                        ->where('tipe_media', 'youtube')
+                        ->with('reporters.user'); // Eager load the reporters and their associated user
                     break;
                 case 'berita_media':
-                    $query = Berita::query()->where('tipe_media', 'media');
+                    $query = Berita::query()
+                        ->where('tipe_media', 'media')
+                        ->with('reporters.user'); // Eager load the reporters and their associated user
                     break;
                 case 'iklan':
                 case 'peliputan':
@@ -65,13 +73,13 @@ class PelaporanController extends Controller
                     break;
             }
 
-            // Filter by month and year if provided
-            if ($request->filled('bulan') && $request->filled('tahun')) {
+            // Apply date filters if provided
+            if ($query && $request->filled('bulan') && $request->filled('tahun')) {
                 $query->whereMonth('created_at', $request->bulan)
                     ->whereYear('created_at', $request->tahun);
-            } elseif ($request->filled('bulan')) {
+            } elseif ($query && $request->filled('bulan')) {
                 $query->whereMonth('created_at', $request->bulan);
-            } elseif ($request->filled('tahun')) {
+            } elseif ($query && $request->filled('tahun')) {
                 $query->whereYear('created_at', $request->tahun);
             }
 
@@ -108,7 +116,7 @@ class PelaporanController extends Controller
     public function cetak($id)
     {
         // Temukan laporan_pengajuan
-        $laporanPengajuan = LaporanPengajuan::with('laporan.berita', 'laporan.suratMasuk', 'laporan.reporter.suratMasuk', 'laporan.reporter.user')->findOrFail($id);
+        $laporanPengajuan = LaporanPengajuan::with('laporan.berita.reporters.user', 'laporan.suratMasuk', 'laporan.reporter.suratMasuk', 'laporan.reporter.user')->findOrFail($id);
         // dd($laporanPengajuan);
         // Format data QR Code
         $approvedAtFormatted = $laporanPengajuan->approved_at;
@@ -157,23 +165,22 @@ class PelaporanController extends Controller
             'jenis_laporan' => 'required|string'
         ]);
 
-        // Simpan laporan pengajuan
+        // Save LaporanPengajuan
         $laporanPengajuan = new LaporanPengajuan();
         $laporanPengajuan->nama_pengajuan = 'Pengajuan Laporan ' . $request->jenis_laporan;
-        $laporanPengajuan->keterangan = $request->keterangan; // Tambahkan keterangan jika diperlukan
+        $laporanPengajuan->keterangan = $request->keterangan;
         $laporanPengajuan->tanggal_pengajuan = now();
-        $laporanPengajuan->approved = false; // Default false saat pertama kali disimpan
+        $laporanPengajuan->approved = false;
         $laporanPengajuan->save();
 
-        // Menyimpan laporan berdasarkan jenis laporan
-        if ($request->jenis_laporan == 'berita_website' || $request->jenis_laporan == 'berita_radio' || $request->jenis_laporan == 'berita_youtube' || $request->jenis_laporan == 'berita_media') {
-            // Ambil berita_id jika jenis laporan adalah berita
+        // Determine the type of report and save corresponding data
+        if (str_starts_with($request->jenis_laporan, 'berita')) {
             $beritaIds = Berita::query()
+                ->where('tipe_media', str_replace('berita_', '', $request->jenis_laporan))
                 ->whereMonth('created_at', $request->bulan)
                 ->whereYear('created_at', $request->tahun)
                 ->pluck('id');
 
-            // Debugging: cek apakah beritaIds kosong atau tidak
             if ($beritaIds->isEmpty()) {
                 return response()->json(['error' => 'Tidak ada berita yang ditemukan untuk bulan dan tahun yang dipilih'], 404);
             }
@@ -184,8 +191,7 @@ class PelaporanController extends Controller
                 $laporan->berita_id = $beritaId;
                 $laporan->save();
             }
-        } elseif ($request->jenis_laporan == 'iklan' || $request->jenis_laporan == 'peliputan') {
-            // Simpan surat_masuk_id jika jenis laporan adalah iklan atau peliputan
+        } elseif (in_array($request->jenis_laporan, ['iklan', 'peliputan'])) {
             $suratMasukIds = SuratMasuk::query()
                 ->where('jenis', $request->jenis_laporan)
                 ->whereMonth('created_at', $request->bulan)
@@ -203,7 +209,6 @@ class PelaporanController extends Controller
                 $laporan->save();
             }
         } elseif ($request->jenis_laporan == 'jadwal') {
-            // Simpan reporter_id jika jenis laporan adalah jadwal
             $reporterIds = Reporters::query()
                 ->whereMonth('created_at', $request->bulan)
                 ->whereYear('created_at', $request->tahun)

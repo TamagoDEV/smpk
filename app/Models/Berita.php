@@ -26,6 +26,11 @@ class Berita extends Model
         'status',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function suratMasuk()
     {
         return $this->belongsTo(SuratMasuk::class, 'surat_masuk_id');

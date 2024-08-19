@@ -12,4 +12,9 @@ class BeritaReporter extends Model
     protected $table = 'berita_reporter';
 
     protected $guarded = [];
+
+    public function reporter()
+    {
+        return $this->belongsTo(Reporters::class);
+    }
 }

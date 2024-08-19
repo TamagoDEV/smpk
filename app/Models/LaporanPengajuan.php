@@ -20,7 +20,6 @@ class LaporanPengajuan extends Model
         return $this->hasMany(Laporan::class, 'laporan_pengajuan_id');
     }
 
-    // Relasi dengan user (kepala bidang)
     public function approvedBy()
     {
         return $this->belongsTo(User::class, 'approved_by');

@@ -80,58 +80,65 @@
             </div>
         </div>
     </div>
-    </div>
 
-    <h3>Laporan Pengajuan Liputan Yang Telah Diproses</h3>
+    <h3>Laporan Pengajuan Yang Telah Diproses</h3>
 
     @if ($laporanPengajuan->laporan->count() > 0)
-        @foreach ($laporanPengajuan->laporan as $laporan)
-            @if ($laporan->berita)
-                <!-- Berita -->
-                <h4>Berita</h4>
-                <table>
-                    <thead>
+        <table border="1" cellpadding="5" cellspacing="0">
+            <thead>
+                <tr>
+                    <!-- Tabel Header berdasarkan jenis laporan -->
+                    @if ($laporanPengajuan->laporan->first()->berita)
+                        <th>No</th>
+                        <th>Judul</th>
+                        <th>Penulis</th>
+                        <th>Tanggal Pengajuan</th>
+                        <th>Approve</th>
+                        <th>Tanggal Diapprove</th>
+                    @elseif ($laporanPengajuan->laporan->first()->suratMasuk)
+                        <th>No</th>
+                        <th>Nama Pengirim</th>
+                        <th>Instansi</th>
+                        <th>Bidang</th>
+                        <th>Tanggal</th>
+                        <th>Status</th>
+                    @elseif ($laporanPengajuan->laporan->first()->reporter)
+                        <th>No</th>
+                        <th>Nama Acara</th>
+                        <th>Tanggal Acara</th>
+                        <th>Tempat</th>
+                        <th>Nama Reporter</th>
+                        <th>Tipe</th>
+                    @endif
+                </tr>
+            </thead>
+            <tbody>
+                <?php $no = 1; ?>
+                @foreach ($laporanPengajuan->laporan as $laporan)
+                    @if ($laporan->berita)
+                        <!-- Berita -->
                         <tr>
-                            <th>No</th>
-                            <th>Tipe Media</th>
-                            <th>Judul</th>
-                            <th>Isi</th>
-                            <th>Link YouTube</th>
-                            <th>Audio</th>
-                            <th>Naskah</th>
-                            <th>Keterangan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>{{ $laporan->berita->tipe_media ?? 'N/A' }}</td>
+                            <td>{{ $no++ }}</td>
                             <td>{{ $laporan->berita->judul ?? 'N/A' }}</td>
-                            <td>{{ $laporan->berita->isi ?? 'N/A' }}</td>
-                            <td>{{ $laporan->berita->link_youtube ?? 'N/A' }}</td>
-                            <td>{{ $laporan->berita->audio ?? 'N/A' }}</td>
-                            <td>{{ $laporan->berita->naskah ?? 'N/A' }}</td>
-                            <td>{{ $laporan->berita->keterangan ?? 'N/A' }}</td>
+                            <td>{{ $laporan->berita->reporters->first()->user->nama_lengkap ?? 'N/A' }}</td>
+                            <td>{{ $laporan->created_at->format('d-m-Y') ?? 'N/A' }}</td>
+                            <td>{{ $laporan->berita->approvedBy->nama_lengkap ?? 'N/A' }}</td>
+                            <td>{{ $laporan->berita->approved_at ? $laporan->berita->approved_at : 'N/A' }}</td>
                         </tr>
-                    </tbody>
-                </table>
-            @elseif ($laporan->suratMasuk)
-                <!-- Surat Masuk -->
-                <h4>Surat Masuk</h4>
-                <table>
-                    <thead>
+                        @if ($laporan->berita->tipe_media == 'youtube')
+                            <!-- Link YouTube -->
+                            <tr>
+                                <td colspan="6">
+                                    <h5>Link YouTube:</h5>
+                                    <a href="{{ $laporan->berita->link_youtube }}"
+                                        target="_blank">{{ $laporan->berita->link_youtube }}</a>
+                                </td>
+                            </tr>
+                        @endif
+                    @elseif ($laporan->suratMasuk)
+                        <!-- Surat Masuk -->
                         <tr>
-                            <th>No</th>
-                            <th>Nama Pengirim</th>
-                            <th>Instansi</th>
-                            <th>Bidang</th>
-                            <th>Tanggal</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
+                            <td>{{ $no++ }}</td>
                             <td>{{ $laporan->suratMasuk->nama_pengirim ?? 'N/A' }}</td>
                             <td>{{ $laporan->suratMasuk->instansi ?? 'N/A' }}</td>
                             <td>{{ $laporan->suratMasuk->bidang ?? 'N/A' }}</td>
@@ -139,38 +146,24 @@
                             </td>
                             <td>{{ $laporan->suratMasuk->approved === 1 ? 'Sudah Disetujui' : 'Belum Disetujui' }}</td>
                         </tr>
-                    </tbody>
-                </table>
-            @elseif ($laporan->reporter)
-                <!-- Reporter -->
-                <h4>Jadwal</h4>
-                <table>
-                    <thead>
+                    @elseif ($laporan->reporter)
+                        <!-- Reporter -->
                         <tr>
-                            <th>No</th>
-                            <th>Nama Acara</th>
-                            <th>Tanggal Acara</th>
-                            <th>Tempat</th>
-                            <th>Nama Reporter</th>
-                            <th>Tipe</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
+                            <td>{{ $no++ }}</td>
                             <td>{{ $laporan->reporter->suratMasuk->nama_acara ?? 'N/A' }}</td>
                             <td>{{ $laporan->reporter->suratMasuk->tanggal_acara ?? 'N/A' }}</td>
                             <td>{{ $laporan->reporter->suratMasuk->lokasi_acara ?? 'N/A' }}</td>
                             <td>{{ $laporan->reporter->user->nama_lengkap ?? 'N/A' }}</td>
                             <td>{{ $laporan->reporter->tipe ?? 'N/A' }}</td>
                         </tr>
-                    </tbody>
-                </table>
-            @endif
-        @endforeach
+                    @endif
+                @endforeach
+            </tbody>
+        </table>
     @else
         <p>Tidak ada laporan untuk ditampilkan.</p>
     @endif
+
     <!-- Signature and QR Code -->
     <div style="margin-top: 40px;">
         <h3>Signature</h3>
