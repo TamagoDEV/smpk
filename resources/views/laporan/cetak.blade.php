@@ -96,7 +96,15 @@
     </div>
 
     @if ($laporanPengajuan->laporan->first()->berita)
-        <h3>Laporan Berita Bulan {{ $laporanPengajuan->bulan }} Tahun {{ $laporanPengajuan->tahun }} </h3>
+        @if ($laporanPengajuan->laporan->first()->berita->tipe_media == 'website')
+            <h3>Laporan Berita Website Bulan {{ $laporanPengajuan->bulan }} Tahun {{ $laporanPengajuan->tahun }} </h3>
+        @elseif ($laporanPengajuan->laporan->first()->berita->tipe_media == 'radio')
+            <h3>Laporan Berita Radio Bulan {{ $laporanPengajuan->bulan }} Tahun {{ $laporanPengajuan->tahun }} </h3>
+        @elseif ($laporanPengajuan->laporan->first()->berita->tipe_media == 'youtube')
+            <h3>Laporan Berita Youtube Bulan {{ $laporanPengajuan->bulan }} Tahun {{ $laporanPengajuan->tahun }} </h3>
+        @elseif ($laporanPengajuan->laporan->first()->berita->tipe_media == 'media')
+            <h3>Laporan Berita Media Bulan {{ $laporanPengajuan->bulan }} Tahun {{ $laporanPengajuan->tahun }} </h3>
+        @endif
     @elseif ($laporanPengajuan->laporan->first()->suratMasuk)
         <h3>Laporan Surat Masuk Bulan {{ $laporanPengajuan->bulan }} Tahun {{ $laporanPengajuan->tahun }} </h3>
     @elseif ($laporanPengajuan->laporan->first()->reporter)
@@ -164,7 +172,8 @@
                             <td>{{ $laporan->suratMasuk->bidang ?? 'N/A' }}</td>
                             <td>{{ \Carbon\Carbon::parse($laporan->suratMasuk->tanggal)->format('d-m-Y') ?? 'N/A' }}
                             </td>
-                            <td>{{ $laporan->suratMasuk->approved === 1 ? 'Sudah Disetujui' : 'Belum Disetujui' }}</td>
+                            <td>{{ $laporan->suratMasuk->approved === 1 ? 'Sudah Disetujui' : 'Belum Disetujui' }}
+                            </td>
                         </tr>
                     @elseif ($laporan->reporter)
                         <!-- Reporter -->
