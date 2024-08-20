@@ -57,6 +57,20 @@
                 display: none;
             }
         }
+
+        /* Signature and QR Code positioning */
+        .signature {
+            float: right;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .signature img {
+            width: 100px;
+            height: 100px;
+            display: block;
+            margin: 10px auto;
+        }
     </style>
 </head>
 
@@ -171,12 +185,12 @@
     @endif
 
     <!-- Signature and QR Code -->
-    <div style="margin-top: 40px;">
-        <h3>Signature</h3>
-        <p><strong>Tanggal Pengajuan:</strong>
+    <div class="signature">
+
+        <p><strong>Tanah Laut,</strong>
             {{ \Carbon\Carbon::parse($laporanPengajuan->tanggal_pengajuan)->locale('id')->format('d F Y') }}</p>
-        <p><strong>Tanda Tangan Pengesah</strong></p>
-        <img src="{{ $qrCodeUrl }}" alt="QR Code" style="display: block; margin: 10px 0;">
+        <p><strong>Kepala Bidang Komunikasi</strong></p>
+        <img src="{{ $qrCodeUrl }}" alt="QR Code">
         <p><strong>{{ $laporanPengajuan->approvedBy->nama_lengkap }}</strong> </p>
     </div>
 
