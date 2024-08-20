@@ -81,7 +81,13 @@
         </div>
     </div>
 
-    <h3>Laporan Pengajuan Yang Telah Diproses</h3>
+    @if ($laporanPengajuan->laporan->first()->berita)
+        <h3>Laporan Berita Bulan {{ $laporanPengajuan->bulan }} Tahun {{ $laporanPengajuan->tahun }} </h3>
+    @elseif ($laporanPengajuan->laporan->first()->suratMasuk)
+        <h3>Laporan Surat Masuk Bulan {{ $laporanPengajuan->bulan }} Tahun {{ $laporanPengajuan->tahun }} </h3>
+    @elseif ($laporanPengajuan->laporan->first()->reporter)
+        <h3>Laporan Jadwal Bulan {{ $laporanPengajuan->bulan }} Tahun {{ $laporanPengajuan->tahun }} </h3>
+    @endif
 
     @if ($laporanPengajuan->laporan->count() > 0)
         <table border="1" cellpadding="5" cellspacing="0">

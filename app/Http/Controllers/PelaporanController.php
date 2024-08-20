@@ -157,6 +157,26 @@ class PelaporanController extends Controller
         return $dompdf->stream('laporan-pengajuan-' . $id . '.pdf');
     }
 
+    private function getNamaBulan($bulan)
+    {
+        $namaBulan = [
+            1 => 'Januari',
+            2 => 'Februari',
+            3 => 'Maret',
+            4 => 'April',
+            5 => 'Mei',
+            6 => 'Juni',
+            7 => 'Juli',
+            8 => 'Agustus',
+            9 => 'September',
+            10 => 'Oktober',
+            11 => 'November',
+            12 => 'Desember',
+        ];
+
+        return $namaBulan[$bulan] ?? 'Unknown';
+    }
+
     public function ajukan(Request $request)
     {
         $request->validate([
@@ -165,10 +185,15 @@ class PelaporanController extends Controller
             'jenis_laporan' => 'required|string'
         ]);
 
+        // Mengkonversi angka bulan menjadi nama bulan
+        $namaBulan = $this->getNamaBulan($request->bulan);
+
         // Save LaporanPengajuan
         $laporanPengajuan = new LaporanPengajuan();
         $laporanPengajuan->nama_pengajuan = 'Pengajuan Laporan ' . $request->jenis_laporan;
         $laporanPengajuan->keterangan = $request->keterangan;
+        $laporanPengajuan->bulan = $namaBulan;  // Menyimpan nama bulan
+        $laporanPengajuan->tahun = $request->tahun;  // Menyimpan tahun
         $laporanPengajuan->tanggal_pengajuan = now();
         $laporanPengajuan->approved = false;
         $laporanPengajuan->save();
@@ -228,6 +253,7 @@ class PelaporanController extends Controller
 
         return response()->json(['success' => true]);
     }
+
 
 
     public function pengajuan(Request $request)

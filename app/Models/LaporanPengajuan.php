@@ -12,7 +12,7 @@ class LaporanPengajuan extends Model
     protected $table = 'laporan_pengajuan'; // Sesuaikan nama tabel jika diperlukan
 
     // Jika Anda memiliki kolom yang bisa diisi (fillable), Anda bisa mendefinisikannya di sini:
-    protected $fillable = ['nama_pengajuan', 'keterangan', 'tanggal_pengajuan', 'approved', 'approved_by', 'approved_at'];
+    protected $fillable = ['nama_pengajuan', 'keterangan', 'tanggal_pengajuan', 'approved', 'approved_by', 'approved_at', 'bulan', 'tahun'];
 
     // Relasi dengan tabel laporan
     public function laporan()
