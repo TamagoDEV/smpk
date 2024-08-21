@@ -178,7 +178,17 @@
 
                 // Collect data from Step 1
                 $('#step-1').find('input, select, textarea').each(function() {
-                    form.append($(this).clone());
+                    // Check if the element is a select box
+                    if ($(this).is('select')) {
+                        // Create a hidden input to pass the select value
+                        form.append($('<input>', {
+                            type: 'hidden',
+                            name: $(this).attr('name'),
+                            value: $(this).val()
+                        }));
+                    } else {
+                        form.append($(this).clone());
+                    }
                 });
 
                 // Collect data from Step 2
