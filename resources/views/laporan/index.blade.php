@@ -90,7 +90,7 @@
 
                             let headers = [];
                             if (jenis_laporan.startsWith('berita')) {
-                                headers = ['No', 'Judul', 'Penulis', 'Tanggal Pengajuan', 'Approve',
+                                headers = ['No', 'Judul', 'keterangan', 'Penulis', 'Tanggal Pengajuan', 'Approve',
                                     'Tanggal Diapprove'
                                 ];
 
@@ -112,8 +112,10 @@
                                 <tr>
                                     <td>${index + 1}</td>
                                     <td>${report.judul || 'N/A'}</td>
+                                    <td>${report.keterangan || 'N/A'}</td>
                                 <td>${report.reporters[0].user.nama_lengkap}</td>
                                 <td>${formattedDate}</td>
+
                                     <td>${report.approved_by ? 'Approved' : 'Pending'}</td>
                                     <td>${report.approved_at || 'N/A'}</td>
                             `;

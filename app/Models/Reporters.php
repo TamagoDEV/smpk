@@ -35,4 +35,10 @@ class Reporters extends Model
         return $this->belongsToMany(Berita::class, 'berita_reporter', 'reporter_id', 'berita_id')
             ->withTimestamps();
     }
+    public function scopeOrderedByEventDate($query)
+    {
+        return $query->join('surat_masuk', 'reporter.surat_masuk_id', '=', 'surat_masuk.id')
+            ->orderBy('surat_masuk.tanggal_acara', 'desc')
+            ->select('reporter.*');
+    }
 }

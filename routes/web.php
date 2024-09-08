@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\kantorController;
 use App\Http\Controllers\KomentarController;
 use App\Http\Controllers\PelaporanController;
 use App\Http\Controllers\ReporterController;
@@ -27,6 +28,7 @@ Route::prefix('auth')->group(function () {
 Route::middleware('userLogin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('users', UsersController::class);
+    Route::resource('kantor', KantorController::class);
 
     Route::prefix('surat-masuk')->group(function () {
         Route::get('/', [SuratMasukController::class, 'peliputanIndex'])->name('surat-masuk');
@@ -62,10 +64,12 @@ Route::middleware('userLogin')->group(function () {
     });
 
     Route::get('laporan', [PelaporanController::class, 'index'])->name('pelaporan.index');
+    Route::get('laporan/tahunan', [PelaporanController::class, 'tahunan'])->name('pelaporan.tahunan');
     Route::get('laporan/filter', [PelaporanController::class, 'filter'])->name('laporan.filter');
     // Route to print the report
     Route::get('/laporan/cetak/{id}', [PelaporanController::class, 'cetak'])->name('laporan.cetak');
     Route::post('/laporan/ajukan', [PelaporanController::class, 'ajukan'])->name('laporan.ajukan');
+    Route::post('/laporan/ajukan-tahunan', [PelaporanController::class, 'ajukanTahunan'])->name('laporan.ajukanTahunan');
     Route::get('laporan/pengajuan', [PelaporanController::class, 'pengajuan'])->name('laporan.pengajuan');
     // Melakukan approval laporan
     Route::patch('/laporan/{id}/approve', [PelaporanController::class, 'approve'])->name('laporan.approve');

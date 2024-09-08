@@ -106,30 +106,7 @@
                                         <label for="kontakLain" class="form-label">Kontak Lain (Opsional)</label>
                                         <input type="text" class="form-control" id="kontakLain" name="kontak_lain">
                                     </div>
-
-                                    <div id="formIklan" style="display: none;">
-                                        <div class="mb-3">
-                                            <label for="tipeIklan" class="form-label">Tipe Iklan</label>
-                                            <input type="text" class="form-control" id="tipeIklan"
-                                                name="tipe_iklan">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="periode" class="form-label">Periode</label>
-                                            <input type="text" class="form-control" id="periode"
-                                                name="periode">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="harga" class="form-label">Harga</label>
-                                            <input type="number" class="form-control" id="harga"
-                                                name="harga">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="ppn" class="form-label">PPN (11%)</label>
-                                            <input type="number" class="form-control" id="ppn"
-                                                name="ppn">
-                                        </div>
-                                    </div>
-
+                                    {{-- form peliputan  --}}
                                     <div id="formPeliputan" style="display: none;">
                                         <div class="mb-3">
                                             <label for="namaAcara" class="form-label">Nama Acara</label>
@@ -153,14 +130,108 @@
                                         </div>
                                     </div>
 
-                                    <div class="mb-3">
-                                        <label for="dokumenSurat" class="form-label">Dokumen Surat</label>
-                                        <input class="form-control" type="file" id="dokumenSurat"
-                                            name="dokumen_surat">
+
+                                    <div id="formIklan" style="display: none;">
+                                        <div class="mb-3">
+                                            <label for="tipeIklan" class="form-label">Tipe Iklan</label>
+                                            <select class="form-select" id="tipeIklan" name="tipe_iklan" required>
+                                                <option value="" disabled selected>Pilih Tipe Iklan</option>
+                                                <option value="billboard">Billboard</option>
+                                                <option value="radio">Radio</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Form Iklan Billboard -->
+                                        <div id="formBillboard" style="display: none;">
+                                            <div class="mb-3">
+                                                <label for="lokasiBillboard" class="form-label">Lokasi
+                                                    Billboard</label>
+                                                <select class="form-select" id="lokasiBillboard"
+                                                    name="lokasi_billboard">
+                                                    <option value="" disabled selected>Pilih Lokasi</option>
+                                                    <option value="alun-alun">Alun-Alun</option>
+                                                    <option value="pasar-senen">Pasar Senen</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="jenisBillboard" class="form-label">Jenis Billboard</label>
+                                                <select class="form-select" id="jenisBillboard"
+                                                    name="jenis_billboard">
+                                                    <option value="" disabled selected>Pilih Jenis Billboard
+                                                    </option>
+                                                    <option value="non-roko">Non-Roko</option>
+                                                    <option value="roko">Roko</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="periodeBillboard" class="form-label">Periode</label>
+                                                <select class="form-select" id="periodeBillboard"
+                                                    name="periode_billboard">
+                                                    <option value="" disabled selected>Pilih Periode</option>
+                                                    <option value="bulan">Bulan</option>
+                                                    <option value="hari">Hari</option>
+                                                    <option value="jam">Jam</option>
+                                                    <option value="menit">Menit</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="hargaBillboard" class="form-label">Harga</label>
+                                                <input type="number" class="form-control" id="hargaBillboard"
+                                                    name="harga_billboard">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="ppnBillboard" class="form-label">PPN (11%)</label>
+                                                <input type="number" class="form-control" id="ppnBillboard"
+                                                    name="ppn_billboard" readonly>
+                                            </div>
+                                        </div>
+
+
+                                        <!-- Form Iklan Radio -->
+                                        <div id="formRadio" style="display: none;">
+                                            <div class="mb-3">
+                                                <label for="jenisKegiatan" class="form-label">Jenis Kegiatan</label>
+                                                <select class="form-select" id="jenisKegiatan" name="jenis_kegiatan">
+                                                    <option value="" disabled selected>Pilih Jenis Kegiatan
+                                                    </option>
+                                                    <option value="sport">Sport</option>
+                                                    <option value="adlibs">Adlibs</option>
+                                                    <option value="sponsor">Sponsor Program/Acara</option>
+                                                    <option value="talkshow">Talkshow</option>
+                                                    <option value="dialog">Dialog Interaktif</option>
+                                                    <option value="siaran_langsung">Siaran Langsung</option>
+                                                    <option value="sponsor_olah_raga">Sponsor Olah Raga</option>
+                                                    <option value="break">Break</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="durasiRadio" class="form-label">Durasi</label>
+                                                <select class="form-select" id="durasiRadio" name="durasi_radio">
+                                                    <!-- Durasi dan harga otomatis terisi berdasarkan jenis kegiatan -->
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="hargaRadio" class="form-label">Harga</label>
+                                                <input type="number" class="form-control" id="hargaRadio"
+                                                    name="harga_radio" readonly>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="ppnRadio" class="form-label">PPN (11%)</label>
+                                                <input type="number" class="form-control" id="ppnRadio"
+                                                    name="ppn_radio" readonly>
+                                            </div>
+                                        </div>
                                     </div>
 
+                                    <!-- Input Lainnya -->
                                     <div class="mb-3">
-                                        <button type="submit" class="btn btn-primary">Kirim Surat</button>
+                                        <label for="fileLampiran" class="form-label">Lampiran (Opsional)</label>
+                                        <input type="file" class="form-control" id="fileLampiran"
+                                            name="lampiran">
+                                    </div>
+
+                                    <div class="d-flex justify-content-end">
+                                        <button type="submit" class="btn btn-primary">Kirim</button>
                                     </div>
                                 </form>
                             </div>
@@ -169,27 +240,161 @@
                 </div>
             </div>
         </main>
-        <!--end page main-->
+        <!--end content-->
 
     </div>
     <!--end wrapper-->
 
     <!-- Bootstrap JS -->
     <script src="{{ url('assets/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- Custom JS -->
     <script>
-        document.getElementById('jenisSurat').addEventListener('change', function() {
-            var formIklan = document.getElementById('formIklan');
-            var formPeliputan = document.getElementById('formPeliputan');
+        // Data harga iklan radio
+        const hargaDataRadio = {
+            sport: {
+                durasi: '30 menit',
+                harga: 150000
+            },
+            adlibs: {
+                durasi: '15 menit',
+                harga: 100000
+            },
+            sponsor: {
+                durasi: '60 menit',
+                harga: 300000
+            },
+            talkshow: {
+                durasi: '60 menit',
+                harga: 250000
+            },
+            dialog: {
+                durasi: '45 menit',
+                harga: 200000
+            },
+            siaran_langsung: {
+                durasi: '90 menit',
+                harga: 400000
+            },
+            sponsor_olah_raga: {
+                durasi: '60 menit',
+                harga: 350000
+            },
+            break: {
+                durasi: '15 menit',
+                harga: 75000
+            }
+        };
 
-            if (this.value === 'iklan') {
-                formIklan.style.display = 'block';
-                formPeliputan.style.display = 'none';
-            } else if (this.value === 'peliputan') {
-                formIklan.style.display = 'none';
-                formPeliputan.style.display = 'block';
-            } else {
-                formIklan.style.display = 'none';
-                formPeliputan.style.display = 'none';
+        document.addEventListener('DOMContentLoaded', function() {
+            const jenisSurat = document.getElementById('jenisSurat');
+            const formIklan = document.getElementById('formIklan');
+            const tipeIklan = document.getElementById('tipeIklan');
+            const formBillboard = document.getElementById('formBillboard');
+            const formRadio = document.getElementById('formRadio');
+            const jenisKegiatan = document.getElementById('jenisKegiatan');
+            const durasiRadio = document.getElementById('durasiRadio');
+            const hargaRadio = document.getElementById('hargaRadio');
+            const ppnRadio = document.getElementById('ppnRadio');
+
+            jenisSurat.addEventListener('change', function() {
+                if (jenisSurat.value === 'iklan') {
+                    formIklan.style.display = 'block';
+                    formPeliputan.style.display = 'none'; // Sembunyikan form peliputan
+                } else if (jenisSurat.value === 'peliputan') {
+                    formPeliputan.style.display = 'block'; // Tampilkan form peliputan
+                    formIklan.style.display = 'none'; // Sembunyikan form iklan
+                } else {
+                    formIklan.style.display = 'none';
+                    formPeliputan.style.display = 'none';
+                }
+            });
+
+            tipeIklan.addEventListener('change', function() {
+                if (tipeIklan.value === 'billboard') {
+                    formBillboard.style.display = 'block';
+                    formRadio.style.display = 'none';
+                } else if (tipeIklan.value === 'radio') {
+                    formBillboard.style.display = 'none';
+                    formRadio.style.display = 'block';
+                } else {
+                    formBillboard.style.display = 'none';
+                    formRadio.style.display = 'none';
+                }
+            });
+
+            jenisKegiatan.addEventListener('change', function() {
+                const selectedKegiatan = jenisKegiatan.value;
+                if (hargaDataRadio[selectedKegiatan]) {
+                    const {
+                        durasi,
+                        harga
+                    } = hargaDataRadio[selectedKegiatan];
+                    durasiRadio.innerHTML = `<option value="${durasi}">${durasi}</option>`;
+                    hargaRadio.value = harga;
+                    ppnRadio.value = harga * 0.11;
+                } else {
+                    durasiRadio.innerHTML = '';
+                    hargaRadio.value = '';
+                    ppnRadio.value = '';
+                }
+            });
+        });
+
+        const hargaDataBillboard = {
+            'alun-alun': {
+                'non-roko': {
+                    bulan: 2000000,
+                    hari: 1000000,
+                    jam: 200000,
+                    menit: 50000
+                },
+                'roko': {
+                    bulan: 2500000,
+                    hari: 1250000,
+                    jam: 250000,
+                    menit: 62500
+                }
+            },
+            'pasar-senen': {
+                'non-roko': {
+                    bulan: 1800000,
+                    hari: 900000,
+                    jam: 180000,
+                    menit: 45000
+                },
+                'roko': {
+                    bulan: 2200000,
+                    hari: 1100000,
+                    jam: 220000,
+                    menit: 55000
+                }
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const lokasiBillboard = document.getElementById('lokasiBillboard');
+            const jenisBillboard = document.getElementById('jenisBillboard');
+            const periodeBillboard = document.getElementById('periodeBillboard');
+            const hargaBillboard = document.getElementById('hargaBillboard');
+            const ppnBillboard = document.getElementById('ppnBillboard');
+
+            lokasiBillboard.addEventListener('change', updateHargaBillboard);
+            jenisBillboard.addEventListener('change', updateHargaBillboard);
+            periodeBillboard.addEventListener('change', updateHargaBillboard);
+
+            function updateHargaBillboard() {
+                const lokasi = lokasiBillboard.value;
+                const jenis = jenisBillboard.value;
+                const periode = periodeBillboard.value;
+
+                if (lokasi && jenis && periode) {
+                    const harga = hargaDataBillboard[lokasi][jenis][periode] || 0;
+                    hargaBillboard.value = harga;
+                    ppnBillboard.value = harga * 0.11;
+                } else {
+                    hargaBillboard.value = '';
+                    ppnBillboard.value = '';
+                }
             }
         });
     </script>

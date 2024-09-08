@@ -96,19 +96,27 @@
     </div>
 
     @if ($laporanPengajuan->laporan->first()->berita)
-        @if ($laporanPengajuan->laporan->first()->berita->tipe_media == 'website')
-            <h3>Laporan Berita Website Bulan {{ $laporanPengajuan->bulan }} Tahun {{ $laporanPengajuan->tahun }} </h3>
-        @elseif ($laporanPengajuan->laporan->first()->berita->tipe_media == 'radio')
-            <h3>Laporan Berita Radio Bulan {{ $laporanPengajuan->bulan }} Tahun {{ $laporanPengajuan->tahun }} </h3>
-        @elseif ($laporanPengajuan->laporan->first()->berita->tipe_media == 'youtube')
-            <h3>Laporan Berita Youtube Bulan {{ $laporanPengajuan->bulan }} Tahun {{ $laporanPengajuan->tahun }} </h3>
-        @elseif ($laporanPengajuan->laporan->first()->berita->tipe_media == 'media')
-            <h3>Laporan Berita Media Bulan {{ $laporanPengajuan->bulan }} Tahun {{ $laporanPengajuan->tahun }} </h3>
-        @endif
+        @php
+            $tipeMedia = $laporanPengajuan->laporan->first()->berita->tipe_media;
+            $namaMedia = '';
+            if ($tipeMedia == 'website') {
+                $namaMedia = 'Berita Website';
+            } elseif ($tipeMedia == 'radio') {
+                $namaMedia = 'Berita Radio';
+            } elseif ($tipeMedia == 'youtube') {
+                $namaMedia = 'Berita YouTube';
+            } elseif ($tipeMedia == 'media') {
+                $namaMedia = 'Berita Media';
+            }
+        @endphp
+        <h3>Laporan {{ $namaMedia }} {{ $laporanPengajuan->bulan ? 'Bulan ' . $laporanPengajuan->bulan : '' }} Tahun
+            {{ $laporanPengajuan->tahun }} </h3>
     @elseif ($laporanPengajuan->laporan->first()->suratMasuk)
-        <h3>Laporan Surat Masuk Bulan {{ $laporanPengajuan->bulan }} Tahun {{ $laporanPengajuan->tahun }} </h3>
+        <h3>Laporan Surat Masuk {{ $laporanPengajuan->bulan ? 'Bulan ' . $laporanPengajuan->bulan : '' }} Tahun
+            {{ $laporanPengajuan->tahun }} </h3>
     @elseif ($laporanPengajuan->laporan->first()->reporter)
-        <h3>Laporan Jadwal Bulan {{ $laporanPengajuan->bulan }} Tahun {{ $laporanPengajuan->tahun }} </h3>
+        <h3>Laporan Jadwal {{ $laporanPengajuan->bulan ? 'Bulan ' . $laporanPengajuan->bulan : '' }} Tahun
+            {{ $laporanPengajuan->tahun }} </h3>
     @endif
 
     @if ($laporanPengajuan->laporan->count() > 0)
@@ -121,6 +129,7 @@
                         <th>Judul</th>
                         <th>Penulis</th>
                         <th>Tanggal Pengajuan</th>
+                        <th>keterangan</th>
                         <th>Approve</th>
                         <th>Tanggal Diapprove</th>
                     @elseif ($laporanPengajuan->laporan->first()->suratMasuk)
@@ -150,6 +159,8 @@
                             <td>{{ $laporan->berita->judul ?? 'N/A' }}</td>
                             <td>{{ $laporan->berita->reporters->first()->user->nama_lengkap ?? 'N/A' }}</td>
                             <td>{{ $laporan->created_at->format('d-m-Y') ?? 'N/A' }}</td>
+
+                            <td>{{ $laporan->berita->keterangan ?? 'N/A' }}</td>
                             <td>{{ $laporan->berita->approvedBy->nama_lengkap ?? 'N/A' }}</td>
                             <td>{{ $laporan->berita->approved_at ? $laporan->berita->approved_at : 'N/A' }}</td>
                         </tr>

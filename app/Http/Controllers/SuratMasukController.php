@@ -20,63 +20,102 @@ class SuratMasukController extends Controller
 
     public function submit(Request $request)
     {
+        // Validation rules
         $rules = [
-            'jenis' => 'required|string',
-            'nama_pengirim' => 'required|string',
-            'instansi' => 'required|string',
-            'bidang' => 'required|string',
-            'no_hp' => 'required|string',
-            'kontak_lain' => 'nullable|string',
+            'jenisSurat' => 'required|string', // jenis
+            'namaPengirim' => 'required|string', // nama_pengirim
+            'instansi' => 'required|string', // instansi
+            'bidang' => 'required|string', // bidang
+            'noHp' => 'required|string', // no_hp
+            'kontakLain' => 'nullable|string', // kontak_lain
+            'fileLampiran' => 'required|file', // dokumen_surat
         ];
 
-        if ($request->jenis == 'iklan') {
+        // Conditional validation rules for "iklan"
+        if ($request->jenisSurat === 'iklan') {
             $rules = array_merge($rules, [
-                'tipe_iklan' => 'required|string',
-                'periode' => 'required|string',
-                'harga' => 'required|numeric',
-                'ppn' => 'required|numeric',
+                'tipeIklan' => 'required|string', // tipe_iklan
             ]);
-        } elseif ($request->jenis == 'peliputan') {
+
+            if ($request->tipeIklan === 'Billboard') {
+                $rules = array_merge($rules, [
+                    'periodeBillboard' => 'nullable|string', // periode
+                    'hargaBillboard' => 'nullable|numeric', // harga
+                    'ppnBillboard' => 'nullable|numeric', // ppn
+                    'jenisBillboard' => 'nullable|string', // jenisBillboard
+                    'lokasiBillboard' => 'nullable|string', // lokasiBillboard
+                ]);
+            } elseif ($request->tipeIklan === 'Radio') {
+                $rules = array_merge($rules, [
+                    'jenisKegiatan' => 'nullable|string', // jenisKegiatan
+                    'durasiRadio' => 'nullable|string', // durasiRadio
+                    'hargaRadio' => 'nullable|numeric', // hargaRadio
+                    'ppnRadio' => 'nullable|numeric', // ppnRadio
+                ]);
+            }
+        }
+
+        // Conditional validation rules for "peliputan"
+        if ($request->jenisSurat === 'peliputan') {
             $rules = array_merge($rules, [
-                'nama_acara' => 'required|string',
-                'lokasi_acara' => 'required|string',
-                'waktu_acara' => 'required|string',
-                'tanggal_acara' => 'required|date',
+                'namaAcara' => 'required|string', // nama_acara
+                'lokasiAcara' => 'required|string', // lokasi_acara
+                'waktuAcara' => 'required|string', // waktu_acara
+                'tanggalAcara' => 'required|date', // tanggal_acara
             ]);
         }
 
+        // Validate the input
         $validatedData = $request->validate($rules);
 
+        // Save to the database
         $suratMasuk = new SuratMasuk();
-        $suratMasuk->jenis = $request->jenis;
-        $suratMasuk->nama_pengirim = $request->nama_pengirim;
+        $suratMasuk->jenis = $request->jenisSurat;
+        $suratMasuk->nama_pengirim = $request->namaPengirim;
         $suratMasuk->instansi = $request->instansi;
         $suratMasuk->bidang = $request->bidang;
-        $suratMasuk->no_hp = $request->no_hp;
-        $suratMasuk->kontak_lain = $request->kontak_lain;
-        $suratMasuk->dokumen_surat = $request->file('dokumen_surat')->store('dokumen_surat');
+        $suratMasuk->no_hp = $request->noHp;
+        $suratMasuk->kontak_lain = $request->kontakLain;
+        $suratMasuk->dokumen_surat = $request->file('fileLampiran')->store('dokumen_surat'); // File upload
 
-        if ($request->jenis === 'iklan') {
-            $suratMasuk->tipe_iklan = $request->tipe_iklan;
-            $suratMasuk->periode = $request->periode;
-            $suratMasuk->harga = $request->harga;
-            $suratMasuk->ppn = $request->ppn;
-        } else if ($request->jenis === 'peliputan') {
-            $suratMasuk->nama_acara = $request->nama_acara;
-            $suratMasuk->lokasi_acara = $request->lokasi_acara;
-            $suratMasuk->waktu_acara = $request->waktu_acara;
-            $suratMasuk->tanggal_acara = $request->tanggal_acara;
+        if ($request->jenisSurat === 'iklan') {
+            // Combine tipe iklan with additional fields
+            $tipeIklan = $request->tipeIklan;
+
+            if ($request->tipeIklan === 'Billboard') {
+                $tipeIklan .= ', ' . $request->lokasiBillboard . ', ' . $request->jenisBillboard;
+                $suratMasuk->periode = $request->periodeBillboard;
+                $suratMasuk->harga = $request->hargaBillboard;
+                $suratMasuk->ppn = $request->ppnBillboard;
+            } elseif ($request->tipeIklan === 'Radio') {
+                $tipeIklan .= ', ' . $request->jenisKegiatan;
+                $suratMasuk->harga = $request->hargaRadio;
+                $suratMasuk->ppn = $request->ppnRadio;
+            }
+
+            $suratMasuk->tipe_iklan = $tipeIklan;
+        } elseif ($request->jenisSurat === 'peliputan') {
+            // Handling peliputan type fields
+            $suratMasuk->nama_acara = $request->namaAcara;
+            $suratMasuk->lokasi_acara = $request->lokasiAcara;
+            $suratMasuk->waktu_acara = $request->waktuAcara;
+            $suratMasuk->tanggal_acara = $request->tanggalAcara;
         }
 
+        // Save the record
         $suratMasuk->save();
 
+        // Redirect back with success message
         return redirect()->back()->with('success', 'Pengajuan surat berhasil dikirim.');
     }
+
+
 
     public function peliputanIndex()
     {
         $peliputan = SuratMasuk::with('reporters', 'kepalaBidang')
             ->where('jenis', 'peliputan')
+            ->orderBy('created_at', 'desc')
             ->get()
             ->map(function ($surat) {
                 $surat->status_jadwal = $surat->reporters->isEmpty() ? 'Belum Terjadwal' : 'Sudah Terjadwal';
@@ -134,6 +173,8 @@ class SuratMasukController extends Controller
     {
         $iklan = SuratMasuk::with('reporters')
             ->where('jenis', 'iklan')
+            ->orderBy('created_at', 'desc')
+
             ->get();
 
         return view('suratmasuk.iklan', [
@@ -146,6 +187,8 @@ class SuratMasukController extends Controller
     {
         $approved = SuratMasuk::with('reporters')
             ->whereNotNull('kepala_bidang_id')
+            ->orderBy('approved_at', 'desc')
+
             ->get();
 
         return view('suratmasuk.approvalsurat', [

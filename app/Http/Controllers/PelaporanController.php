@@ -37,6 +37,23 @@ class PelaporanController extends Controller
             'reports' => $reports,
         ]);
     }
+    public function tahunan(Request $request)
+    {
+        $reports = collect(); // Menggunakan koleksi untuk hasil yang berbeda-beda
+
+        if ($request->jenis_laporan == 'berita') {
+            $reports = Berita::query()->get();
+        } elseif ($request->jenis_laporan == 'surat_iklan' || $request->jenis_laporan == 'surat_peliputan') {
+            $reports = SuratMasuk::query()->where('jenis', $request->jenis_laporan)->get();
+        } elseif ($request->jenis_laporan == 'jadwal') {
+            $reports = Reporters::query()->get();
+        }
+
+        return view('laporan.ajuantahunan', [
+            'title' => 'Laporan',
+            'reports' => $reports,
+        ]);
+    }
 
     public function filter(Request $request)
     {
@@ -254,12 +271,90 @@ class PelaporanController extends Controller
         return response()->json(['success' => true]);
     }
 
+    public function ajukanTahunan(Request $request)
+    {
+        $request->validate([
+            // 'bulan' => 'required|integer|min:1|max:12',
+            'tahun' => 'required|integer|min:2000|max:2099',
+            'jenis_laporan' => 'required|string'
+        ]);
+
+        // Mengkonversi angka bulan menjadi nama bulan
+        // $namaBulan = $this->getNamaBulan($request->bulan);
+
+        // Save LaporanPengajuan
+        $laporanPengajuan = new LaporanPengajuan();
+        $laporanPengajuan->nama_pengajuan = 'Pengajuan Laporan ' . $request->jenis_laporan;
+        $laporanPengajuan->keterangan = $request->keterangan;
+        // $laporanPengajuan->bulan = $namaBulan;  // Menyimpan nama bulan
+        $laporanPengajuan->tahun = $request->tahun;  // Menyimpan tahun
+        $laporanPengajuan->tanggal_pengajuan = now();
+        $laporanPengajuan->approved = false;
+        $laporanPengajuan->save();
+
+        // Determine the type of report and save corresponding data
+        if (str_starts_with($request->jenis_laporan, 'berita')) {
+            $beritaIds = Berita::query()
+                ->where('tipe_media', str_replace('berita_', '', $request->jenis_laporan))
+                // ->whereMonth('created_at', $request->bulan)
+                ->whereYear('created_at', $request->tahun)
+                ->pluck('id');
+
+            if ($beritaIds->isEmpty()) {
+                return response()->json(['error' => 'Tidak ada berita yang ditemukan untuk bulan dan tahun yang dipilih'], 404);
+            }
+
+            foreach ($beritaIds as $beritaId) {
+                $laporan = new Laporan();
+                $laporan->laporan_pengajuan_id = $laporanPengajuan->id;
+                $laporan->berita_id = $beritaId;
+                $laporan->save();
+            }
+        } elseif (in_array($request->jenis_laporan, ['iklan', 'peliputan'])) {
+            $suratMasukIds = SuratMasuk::query()
+                ->where('jenis', $request->jenis_laporan)
+                // ->whereMonth('created_at', $request->bulan)
+                ->whereYear('created_at', $request->tahun)
+                ->pluck('id');
+
+            if ($suratMasukIds->isEmpty()) {
+                return response()->json(['error' => 'Tidak ada surat masuk yang ditemukan untuk bulan dan tahun yang dipilih'], 404);
+            }
+
+            foreach ($suratMasukIds as $suratMasukId) {
+                $laporan = new Laporan();
+                $laporan->laporan_pengajuan_id = $laporanPengajuan->id;
+                $laporan->surat_masuk_id = $suratMasukId;
+                $laporan->save();
+            }
+        } elseif ($request->jenis_laporan == 'jadwal') {
+            $reporterIds = Reporters::query()
+                // ->whereMonth('created_at', $request->bulan)
+                ->whereYear('created_at', $request->tahun)
+                ->pluck('id');
+
+            if ($reporterIds->isEmpty()) {
+                return response()->json(['error' => 'Tidak ada jadwal yang ditemukan untuk bulan dan tahun yang dipilih'], 404);
+            }
+
+            foreach ($reporterIds as $reporterId) {
+                $laporan = new Laporan();
+                $laporan->laporan_pengajuan_id = $laporanPengajuan->id;
+                $laporan->reporter_id = $reporterId;
+                $laporan->save();
+            }
+        }
+
+        return response()->json(['success' => true]);
+    }
+
 
 
     public function pengajuan(Request $request)
     {
-        $laporanPengajuan = LaporanPengajuan::with('approvedBy')->get(); // Mengambil semua laporan pengajuan beserta data user yang menyetujui
-
+        $laporanPengajuan = LaporanPengajuan::with('approvedBy')
+            ->orderBy('tanggal_pengajuan', 'desc')
+            ->get();
         return view('laporan.pengajuan', [
             'title' => 'Data Laporan - Pengajuan',
             'laporanPengajuan' => $laporanPengajuan,

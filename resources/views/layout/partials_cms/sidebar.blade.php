@@ -74,7 +74,9 @@
                     <div class="menu-title">Laporan</div>
                 </a>
                 <ul>
-                    <li> <a href="{{ route('pelaporan.index') }}"><i class="bi bi-circle"></i>Buat Laporan</a>
+                    <li> <a href="{{ route('pelaporan.index') }}"><i class="bi bi-circle"></i>Buat Laporan Bulanan</a>
+                    </li>
+                    <li> <a href="{{ route('pelaporan.tahunan') }}"><i class="bi bi-circle"></i>Buat Laporan Tahunan</a>
                     </li>
                     <li> <a href="{{ route('laporan.pengajuan') }}"><i class="bi bi-circle"></i>Pengajuan Laporan</a>
                     </li>
