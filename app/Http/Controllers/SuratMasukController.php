@@ -37,7 +37,7 @@ class SuratMasukController extends Controller
                 'tipeIklan' => 'required|string', // tipe_iklan
             ]);
 
-            if ($request->tipeIklan === 'Billboard') {
+            if ($request->tipeIklan === 'billboard') {
                 $rules = array_merge($rules, [
                     'periodeBillboard' => 'nullable|string', // periode
                     'hargaBillboard' => 'nullable|numeric', // harga
@@ -45,7 +45,7 @@ class SuratMasukController extends Controller
                     'jenisBillboard' => 'nullable|string', // jenisBillboard
                     'lokasiBillboard' => 'nullable|string', // lokasiBillboard
                 ]);
-            } elseif ($request->tipeIklan === 'Radio') {
+            } elseif ($request->tipeIklan === 'radio') {
                 $rules = array_merge($rules, [
                     'jenisKegiatan' => 'nullable|string', // jenisKegiatan
                     'durasiRadio' => 'nullable|string', // durasiRadio
@@ -77,18 +77,19 @@ class SuratMasukController extends Controller
         $suratMasuk->no_hp = $request->noHp;
         $suratMasuk->kontak_lain = $request->kontakLain;
         $suratMasuk->dokumen_surat = $request->file('fileLampiran')->store('dokumen_surat'); // File upload
-
         if ($request->jenisSurat === 'iklan') {
             // Combine tipe iklan with additional fields
             $tipeIklan = $request->tipeIklan;
 
-            if ($request->tipeIklan === 'Billboard') {
+            if ($request->tipeIklan === 'billboard') {
                 $tipeIklan .= ', ' . $request->lokasiBillboard . ', ' . $request->jenisBillboard;
+
                 $suratMasuk->periode = $request->periodeBillboard;
                 $suratMasuk->harga = $request->hargaBillboard;
                 $suratMasuk->ppn = $request->ppnBillboard;
-            } elseif ($request->tipeIklan === 'Radio') {
+            } elseif ($request->tipeIklan === 'radio') {
                 $tipeIklan .= ', ' . $request->jenisKegiatan;
+                $suratMasuk->periode = $request->durasiRadio;
                 $suratMasuk->harga = $request->hargaRadio;
                 $suratMasuk->ppn = $request->ppnRadio;
             }

@@ -74,7 +74,7 @@
                                     @csrf
                                     <div class="mb-3">
                                         <label for="jenisSurat" class="form-label">Pilih Jenis Surat</label>
-                                        <select class="form-select" id="jenisSurat" name="jenis" required>
+                                        <select class="form-select" id="jenisSurat" name="jenisSurat" required>
                                             <option value="" disabled selected>Pilih Jenis Surat</option>
                                             <option value="iklan">Iklan</option>
                                             <option value="peliputan">Peliputan</option>
@@ -84,8 +84,8 @@
                                     <!-- Data Pribadi Pengirim -->
                                     <div class="mb-3">
                                         <label for="namaPengirim" class="form-label">Nama Pengirim</label>
-                                        <input type="text" class="form-control" id="namaPengirim"
-                                            name="nama_pengirim" required>
+                                        <input type="text" class="form-control" id="namaPengirim" name="namaPengirim"
+                                            required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="instansi" class="form-label">Instansi</label>
@@ -99,34 +99,34 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="noHp" class="form-label">No HP</label>
-                                        <input type="text" class="form-control" id="noHp" name="no_hp"
+                                        <input type="text" class="form-control" id="noHp" name="noHp"
                                             required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="kontakLain" class="form-label">Kontak Lain (Opsional)</label>
-                                        <input type="text" class="form-control" id="kontakLain" name="kontak_lain">
+                                        <input type="text" class="form-control" id="kontakLain" name="kontakLain">
                                     </div>
                                     {{-- form peliputan  --}}
                                     <div id="formPeliputan" style="display: none;">
                                         <div class="mb-3">
                                             <label for="namaAcara" class="form-label">Nama Acara</label>
                                             <input type="text" class="form-control" id="namaAcara"
-                                                name="nama_acara">
+                                                name="namaAcara">
                                         </div>
                                         <div class="mb-3">
                                             <label for="lokasiAcara" class="form-label">Lokasi Acara</label>
                                             <input type="text" class="form-control" id="lokasiAcara"
-                                                name="lokasi_acara">
+                                                name="lokasiAcara">
                                         </div>
                                         <div class="mb-3">
                                             <label for="waktuAcara" class="form-label">Waktu Acara</label>
                                             <input type="text" class="form-control" id="waktuAcara"
-                                                name="waktu_acara">
+                                                name="waktuAcara">
                                         </div>
                                         <div class="mb-3">
                                             <label for="tanggalAcara" class="form-label">Tanggal Acara</label>
                                             <input type="date" class="form-control" id="tanggalAcara"
-                                                name="tanggal_acara">
+                                                name="tanggalAcara">
                                         </div>
                                     </div>
 
@@ -134,7 +134,7 @@
                                     <div id="formIklan" style="display: none;">
                                         <div class="mb-3">
                                             <label for="tipeIklan" class="form-label">Tipe Iklan</label>
-                                            <select class="form-select" id="tipeIklan" name="tipe_iklan" required>
+                                            <select class="form-select" id="tipeIklan" name="tipeIklan">
                                                 <option value="" disabled selected>Pilih Tipe Iklan</option>
                                                 <option value="billboard">Billboard</option>
                                                 <option value="radio">Radio</option>
@@ -147,7 +147,7 @@
                                                 <label for="lokasiBillboard" class="form-label">Lokasi
                                                     Billboard</label>
                                                 <select class="form-select" id="lokasiBillboard"
-                                                    name="lokasi_billboard">
+                                                    name="lokasiBillboard">
                                                     <option value="" disabled selected>Pilih Lokasi</option>
                                                     <option value="alun-alun">Alun-Alun</option>
                                                     <option value="pasar-senen">Pasar Senen</option>
@@ -156,7 +156,7 @@
                                             <div class="mb-3">
                                                 <label for="jenisBillboard" class="form-label">Jenis Billboard</label>
                                                 <select class="form-select" id="jenisBillboard"
-                                                    name="jenis_billboard">
+                                                    name="jenisBillboard">
                                                     <option value="" disabled selected>Pilih Jenis Billboard
                                                     </option>
                                                     <option value="non-roko">Non-Roko</option>
@@ -166,7 +166,7 @@
                                             <div class="mb-3">
                                                 <label for="periodeBillboard" class="form-label">Periode</label>
                                                 <select class="form-select" id="periodeBillboard"
-                                                    name="periode_billboard">
+                                                    name="periodeBillboard">
                                                     <option value="" disabled selected>Pilih Periode</option>
                                                     <option value="bulan">Bulan</option>
                                                     <option value="hari">Hari</option>
@@ -177,12 +177,12 @@
                                             <div class="mb-3">
                                                 <label for="hargaBillboard" class="form-label">Harga</label>
                                                 <input type="number" class="form-control" id="hargaBillboard"
-                                                    name="harga_billboard">
+                                                    name="hargaBillboard">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="ppnBillboard" class="form-label">PPN (11%)</label>
                                                 <input type="number" class="form-control" id="ppnBillboard"
-                                                    name="ppn_billboard" readonly>
+                                                    name="ppnBillboard" readonly>
                                             </div>
                                         </div>
 
@@ -191,7 +191,7 @@
                                         <div id="formRadio" style="display: none;">
                                             <div class="mb-3">
                                                 <label for="jenisKegiatan" class="form-label">Jenis Kegiatan</label>
-                                                <select class="form-select" id="jenisKegiatan" name="jenis_kegiatan">
+                                                <select class="form-select" id="jenisKegiatan" name="jenisKegiatan">
                                                     <option value="" disabled selected>Pilih Jenis Kegiatan
                                                     </option>
                                                     <option value="sport">Sport</option>
@@ -206,19 +206,19 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="durasiRadio" class="form-label">Durasi</label>
-                                                <select class="form-select" id="durasiRadio" name="durasi_radio">
+                                                <select class="form-select" id="durasiRadio" name="durasiRadio">
                                                     <!-- Durasi dan harga otomatis terisi berdasarkan jenis kegiatan -->
                                                 </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="hargaRadio" class="form-label">Harga</label>
                                                 <input type="number" class="form-control" id="hargaRadio"
-                                                    name="harga_radio" readonly>
+                                                    name="hargaRadio" readonly>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="ppnRadio" class="form-label">PPN (11%)</label>
                                                 <input type="number" class="form-control" id="ppnRadio"
-                                                    name="ppn_radio" readonly>
+                                                    name="ppnRadio" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -227,7 +227,7 @@
                                     <div class="mb-3">
                                         <label for="fileLampiran" class="form-label">Lampiran (Opsional)</label>
                                         <input type="file" class="form-control" id="fileLampiran"
-                                            name="lampiran">
+                                            name="fileLampiran">
                                     </div>
 
                                     <div class="d-flex justify-content-end">
